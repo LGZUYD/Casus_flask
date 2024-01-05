@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/home_styles.css">
+    <title>{{account_instance.bevoegdheid}} {{account_instance.naam}}</title>
+</head>
+<body>
+    <div id="container">
+        
+        <div id="name">
+            Naam:
+            {{account_instance.naam}}
+        </div>
+
+        <div id="bevoegdheid">
+            Bevoegdheid: {{account_instance.bevoegdheid}}
+        </div>
+
+        <div>
+            ID:
+            {{account_instance.unieke_ID}}
+        </div>
+
+        <button> Parkeerplaats reserveren</button>
+        <button> Evenementen</button>
+    </div>
+
+
+</body>
+</html>
