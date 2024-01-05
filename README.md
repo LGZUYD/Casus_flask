@@ -8,10 +8,16 @@
 
 4. Type de volgende commands in terminal om Virtual Enviroment en Flask te installen:
 
+### Windows:
 ``` bash
 py -3 -m venv .venv
 .venv\Scripts\activate
 pip install Flask
+```
+### MacOS/Linux:
+``` bash
+python3 -m venv .venv
+. .venv/bin/activate
 ```
 
 5. Om de applicatie te runnen type dit in terminal:
