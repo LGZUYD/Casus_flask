@@ -1,3 +1,5 @@
+# Casus Flask Install
+
 1. Clone deze repository
 
 2. Open in vscode 
@@ -16,9 +18,9 @@ pip install Flask
 ``` bash
 flask run --debug
 ```
-(--debug) zorgt ervoor dat je Flask niet iedere keer opnieuw moet opstarten als je veranderingen maakt in code
+(--debug) zorgt ervoor dat je Flask niet iedere keer opnieuw hoeft op te starten als je veranderingen maakt in code
 
-6. In terminal staat nu iets als volgende, open deze in browser [ CTRL + Click] :
+6. In terminal staat nu iets als volgende, open deze in browser [ CTRL + Click ] :
 
 > * Running on http://127.0.0.1:5000
 
