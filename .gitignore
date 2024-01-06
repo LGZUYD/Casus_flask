@@ -1,0 +1,11 @@
+# flask virtual enviroment files
+/.venv
+__pycache__/
+.env
+*.pyc
+.vscode/
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
