@@ -4,6 +4,7 @@ from json_functies import *
 import unieke_identificator_generator
 
 app = Flask(__name__)
+#test
 
 @app.route("/")
 def hello_world():
