@@ -28,21 +28,18 @@ class Gebruiker:
             print(f"Uw parkeerplaats is {self.parkeerplaats}. ")
         else:
             print("U heeft geen parkeerplaats gereserveerd.")
-        # dit interacteert nog niet met frontend
+        # dit interacteert nog niet met frontend,
+        # geen idee of dit uberhaupt erin blijft
 
 
     def __registreer_evenement__(self, evenement):
+        if evenement.event_ID not in self.geregistreerde_evenementen:
+            self.geregistreerde_evenementen.append(evenement.event_ID)
+
+    def uitschrijven_evenement(self, evenement):
+        if evenement.event_ID in self.geregistreerde_evenementen:
+            self.geregistreerde_evenementen.remove(evenement.event_ID)
         
-        # controleert of er nog plek is in het evenement om deel te nemen
-        if evenement.check_bezoekers_limiet():
-            self.geregistreerde_evenementen.append(evenement.informatie)
-            evenement.bezoekers_aanmelding(self)
-            # werkt self hier?
-            # waarschijnlijk betere manier te vinden
-        else:
-            pass
-            # kijken wat makkelijker is, waarschijnlijk print()-placeholder-
-            # statements van bezoekers_aanmelding() hier doen
             
     def info_to_dict(self):
         return {

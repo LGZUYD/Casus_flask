@@ -1,21 +1,36 @@
 import json
 import gebruikers
     
-class Evenementen:
+class Evenement:
 
-    def __init__(self, naam, locatie, tijd, duur, presentator, bezoekers_limiet):
+    def __init__(self, naam=None, locatie=None, tijd=None, duur=None, presentator=None, bezoekers_limiet=None, event_ID=None, aanmeldingen=None):
         
         self.naam = naam
         self.locatie = locatie
         self.tijd = tijd
         self.duur = duur
         self.presentator = presentator
-        self.bezoekers_limiet = bezoekers_limiet
-        self.aanmeldingen = {}
+        self.bezoekers_limiet = int(bezoekers_limiet)
+        self.event_ID =  event_ID or self.event_id_generator() 
+        self.aanmeldingen = aanmeldingen or {}
 
-        self.informatie = self.__evenement_informatie__() # ?
+        #self.informatie = self.__evenement_informatie_to_dict__() # ?
 
-    def __evenement_informatie__(self):
+    def event_id_generator(self):
+
+        event_ID_string = ''
+
+        with open("json/identificators.json", "r") as json_file:
+            data = json.load(json_file)
+            event_ID_string += "E-" + str(data["evenementen"])
+        
+        with open("json/identificators.json", "w") as json_file:
+            json.dump(data, json_file, indent=4)
+
+        return event_ID_string
+
+
+    def __evenement_informatie_to_dict__(self):
         # verzamel de informatie over het evenement om deze uit te lezen of naar json te verwerken
         informatie = {
             'evenementnaam': self.naam,
@@ -23,7 +38,8 @@ class Evenementen:
             'tijd': self.tijd,
             'duur': self.duur,
             'presentator': self.presentator,
-            'bezoekers limiet': self.bezoekers_limiet,
+            'bezoekers_limiet': self.bezoekers_limiet,
+            "event_ID":self.event_ID,
             'aanmeldingen': self.aanmeldingen
         }
         
@@ -32,12 +48,13 @@ class Evenementen:
     @classmethod
     def info_from_dict(cls, evenement_data):
         return cls(
-            evenement_data['naam'],
+            evenement_data['evenementnaam'],
             evenement_data['locatie'],
             evenement_data['tijd'],
             evenement_data['duur'],
             evenement_data['presentator'],
-            evenement_data['bezoekers limiet'],
+            evenement_data['bezoekers_limiet'],
+            evenement_data['event_ID'],
             evenement_data['aanmeldingen']
         )
 
@@ -47,21 +64,17 @@ class Evenementen:
             return True 
         
     def bezoekers_aanmelding(self, bezoeker):
-
-        if self.check_bezoekers_limiet():
         
+        if self.check_bezoekers_limiet():
             self.aanmeldingen[bezoeker.unieke_ID] = bezoeker.naam
-    
-            # print("Beste {}, u bent aangemeldt voor '{}'.".format(bezoeker.naam, self.naam))
-            # stuur bevestiging etc
+            return True    
         else:
-            pass
-            # stuur bericht wanneer het limiet is bereikt
-            # print("{}, Het bezoekers aantal limiet voor dit evenement is bereikt.".format(bezoeker.naam))
+            return False
 
     def bezoeker_verwijderen(self, bezoeker):
-        # bezoeker uit self.aanmeldingen verwijderen
-        # in json van evenementen en bezoekers verwijderen
-        pass
+        if bezoeker.unieke_ID in self.aanmeldingen:
+            del self.aanmeldingen[bezoeker.unieke_ID]
+
+        
    
         

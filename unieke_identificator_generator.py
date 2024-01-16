@@ -50,5 +50,5 @@ def unieke_registratie_code_generator(bevoegdheid):
 
     return unieke_gebruikers_bevoegdheid_code
 
-
+    
 

@@ -1,0 +1,13 @@
+#container{
+    background-color: lightblue;
+    border-style: groove;
+    margin: 30%;
+    height: 250px;
+    
+}
+
+#event_container{
+    background-color: azure;
+    border-style: groove;
+
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/evenementen.css">
+    <title>Evenement</title>
+</head>
+<body>
+    <div id="container">
+    {% for i in range(len)%}
+    <div id="event_container" data-index="{{i}}">
+        
+            <div>Naam: {{eventlist[i]["evenementnaam"]}}</div>
+            <div>Locatie: {{eventlist[i]["locatie"]}}</div>
+            <div>Tijd: {{eventlist[i]["tijd"]}}</div>
+            <div>Duur: {{eventlist[i]["duur"]}}</div>
+            <div>Presentator: {{eventlist[i]["presentator"]}}</div>
+        
+        <form method="post">
+            <input type="hidden" name="index" value="{{ i }}">
+            <input type="submit" name="Inschrijven" value="Inschrijven">
+            <input type="submit" name="Uitschrijven" value="Uitschrijven">
+        </form>
+            
+    </div>
+    {%endfor%}
+    </div>
+
+</body>
+</html>
+
