@@ -25,6 +25,16 @@
 
         <button> Parkeerplaats reserveren</button>
         <a href=evenementen><button> Evenementen</button></a>
+
+        {% if account_instance.bevoegdheid == "beheerder" %}
+        
+        <div id="evenement_aanmaken" class="buttons">
+            <a href=evenement_aanmaken ><button>evenement_aanmaken</button></a>
+        </div>
+
+
+        {% endif %}
+
     </div>
 
 

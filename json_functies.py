@@ -69,6 +69,18 @@ def evenement_instance_aanmaken_met_json_data(event_ID):
     return Evenement.info_from_dict(evenement_informatie_vinden_in_json(event_ID))
 
 
+def evenement_informatie_wijzigen_in_json_data(event_ID, verander_data):
+    
+    with open("json/evenementen.json", "r") as json_file:
+        data = json.load(json_file)
+        
+    for i in verander_data:
+        data[event_ID][i] = verander_data[i]
+
+    with open("json/evenementen.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
+    
+
 def bezoeker_inschrijven_evenement_in_json(evenement_ID, bezoeker_ID):
 
     event_instance = evenement_instance_aanmaken_met_json_data(evenement_ID)

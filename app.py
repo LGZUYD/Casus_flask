@@ -80,6 +80,7 @@ def evenement_aanmaken():
         bezoekers_limiet=request.form['bezoekers_limiet'])
 
         evenement_aanmaken_in_json(nieuw_evenement)
+        return redirect(url_for("evenementen_bekijken"))
         
 
     return render_template("evenement_aanmaken.html") 
@@ -92,16 +93,16 @@ def evenementen_bekijken():
     with open("json/evenementen.json", "r") as json_file:
         data = json.load(json_file)
 
+    session_gebruiker = session["unieke_ID"]
+    session_acc_bevoegdheid = account_informatie_vinden_in_json(session_gebruiker)["bevoegdheid"]    
     #evenementen die meegegeven worden aan html
     eventlist = []
 
     for event in data:
         eventlist.append(data[event])
-
+        
     if request.method == 'POST':
-
-        session_gebruiker = session["unieke_ID"]
-
+       
         if "Inschrijven" in request.form:
 
             session_acc_naam = account_informatie_vinden_in_json(session["unieke_ID"])["naam"]
@@ -109,16 +110,58 @@ def evenementen_bekijken():
             event_ID_voor_inschrijven = eventlist[int(request.form["index"])]["event_ID"]
             
             bezoeker_inschrijven_evenement_in_json(event_ID_voor_inschrijven, session_gebruiker)
-
+            return redirect(url_for("evenementen_bekijken"))             
+            
+            
         elif "Uitschrijven" in request.form:
             
             event_ID_voor_uitschrijven = eventlist[int(request.form["index"])]["event_ID"]
 
             bezoeker_uitschrijven_evenement_in_json(event_ID_voor_uitschrijven, session_gebruiker)
+            
+            return redirect(url_for("evenementen_bekijken"))
+        
+        elif "Verwijderen" in request.form:
+        
+            event_ID_voor_uitschrijven = eventlist[int(request.form["event_ID"])]["event_ID"]
+            gebruiker_id_voor_uitschrijven = request.form["unieke_ID"]
 
+            bezoeker_uitschrijven_evenement_in_json(event_ID_voor_uitschrijven, gebruiker_id_voor_uitschrijven) 
+
+            return redirect(url_for("evenementen_bekijken"))
+
+        elif "Wijzigen" in request.form:
+
+            event_ID_voor_wijzigen = eventlist[int(request.form["index"])]["event_ID"]
+            
+            return redirect(url_for("evenement_wijzigen_test", event_ID_voor_wijzigen=event_ID_voor_wijzigen))
+
+            
+    return render_template("evenementen.html", len=len(eventlist), eventlist=eventlist, bevoegdheid=session_acc_bevoegdheid, session_gebruiker=session_gebruiker)
     # append alleen evenementen waar de gebruiker voor aangemeld is
     # for event in data:
     #     if session["unieke_ID"] in event["aanmeldingen"]:
     #                              # data[event]["aanmelding"] ?
     #         eventlist.append(data[event])
-    return render_template("evenementen.html", len=len(eventlist), eventlist=eventlist)
+    
+
+@app.route("/evenement_wijzigen", methods=['GET', 'POST'])
+def evenement_wijzigen_test():
+    
+    event_ID_voor_wijzigen = request.args.get("event_ID_voor_wijzigen")
+
+    event_info = evenement_informatie_vinden_in_json(event_ID_voor_wijzigen)
+    
+    if request.method == 'POST':
+
+        data_om_te_veranderen = {}
+
+        for i in request.form:
+            if request.form[i] != '':
+                data_om_te_veranderen[i] = request.form[i]
+        
+        evenement_informatie_wijzigen_in_json_data(event_ID_voor_wijzigen, data_om_te_veranderen)
+
+        return redirect(url_for("evenementen_bekijken"))             
+        
+    return render_template("evenement_wijzigen.html", event_info=event_info)

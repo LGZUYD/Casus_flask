@@ -4,7 +4,7 @@ import parkeerplaatsen
 
 class Gebruiker:
 
-    def __init__(self, naam, parkeerplaats=None, evenementen=None, bevoegdheid="", unieke_code=None):
+    def __init__(self, naam, parkeerplaats=None, evenementen=None, bevoegdheid="bezoeker", unieke_code=None):
         
         self.naam = naam
         self.parkeerplaats = parkeerplaats
@@ -61,11 +61,12 @@ class Gebruiker:
             user_data['unieke_ID']
         )
 
-
+# deze is misschien niet nodig
 class Bezoeker(Gebruiker):
 
     def __init__(self, naam, parkeerplaats =""):
         super().__init__(naam, parkeerplaats)
+
 
 
 class Presentator(Gebruiker):
@@ -74,9 +75,16 @@ class Presentator(Gebruiker):
         super().__init__(naam, parkeerplaats)
 
 
+
 class Beheerder(Gebruiker):
 
-    def __init__(self, naam, parkeerplaats =""):
-        super().__init__(naam, parkeerplaats)
+    def __init__(self, naam, parkeerplaats=None, evenementen=None, bevoegdheid="beheerder", unieke_code=None):
+        super().__init__(naam, parkeerplaats, evenementen)
+        self.bevoegdheid = bevoegdheid
+        self.unieke_ID = unieke_code or unieke_identificator_generator.unieke_registratie_code_generator(self.bevoegdheid)
+
+
+
+
 
 

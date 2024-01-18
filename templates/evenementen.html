@@ -9,18 +9,52 @@
 <body>
     <div id="container">
     {% for i in range(len)%}
-    <div id="event_container" data-index="{{i}}">
+    <div id="event_container">
         
             <div>Naam: {{eventlist[i]["evenementnaam"]}}</div>
             <div>Locatie: {{eventlist[i]["locatie"]}}</div>
             <div>Tijd: {{eventlist[i]["tijd"]}}</div>
             <div>Duur: {{eventlist[i]["duur"]}}</div>
             <div>Presentator: {{eventlist[i]["presentator"]}}</div>
+
+            {% if session_gebruiker in eventlist[i].aanmeldingen %}
+            <div><b>U bent voor dit evenement aangemeld.</b></div>
+            {% endif%}
+            
+            <!-- kunt geen len() gebruiken in flask, ipv kijk hier onder-->
+            {%if eventlist[i].aanmeldingen|length == eventlist[i]["bezoekers_limiet"] and session_gebruiker not in eventlist[i].aanmeldingen %}
+            <div><b>U kunt zich niet meer aanmelden voor dit evenement.</b></div>
+            {%endif%}
+
+
+            {% if bevoegdheid == "beheerder" %}
+            {% for bezoeker in eventlist[i].aanmeldingen %}
+            <div>
+                <b>Naam:</b>
+                {{eventlist[i].aanmeldingen[bezoeker]}}
+                <b>Unieke ID:</b>
+                {{bezoeker}}
+                <form method="post">
+                    <input type="hidden" name="unieke_ID" value="{{ bezoeker }}">
+                    <input type="hidden" name="event_ID" value="{{ i }}">
+                    <input type="submit" name="Verwijderen" value="Verwijderen">
+                </form>
+            </div>
+            {%endfor%}
+            {% endif %}
+
         
         <form method="post">
             <input type="hidden" name="index" value="{{ i }}">
+            {%if eventlist[i].aanmeldingen|length != eventlist[i]["bezoekers_limiet"] and session_gebruiker not in eventlist[i].aanmeldingen%}
             <input type="submit" name="Inschrijven" value="Inschrijven">
+            {%endif%}
+            {%if session_gebruiker in eventlist[i].aanmeldingen %}
             <input type="submit" name="Uitschrijven" value="Uitschrijven">
+            {%endif%}
+            {% if bevoegdheid == "beheerder" %}
+            <a href=evenement_wijzigen ><input type="submit" name="Wijzigen" value="Wijzigen"></a>
+            {%endif%}
         </form>
             
     </div>
