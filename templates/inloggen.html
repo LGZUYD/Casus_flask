@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/inloggen.css">
-    <title>Inloggen</title>
-</head>
-<body>
-    <div id="container">
+{% extends 'base.html' %}
+        {% block css %}
+            <link rel="stylesheet" href="/static/css/inloggen.css">
+        {% endblock %}
+    
+        {%block content%}
         <form id="login_form" method="POST">
             
             <div>
@@ -16,11 +12,8 @@
                     <input type="text" value="" name="unieke_code" placeholder="Uw unieke ID">
                 </div>
             </div>
-
+            
             <input type="submit" value="Submit">
         </form>
+        {%endblock%}
         
-    </div>
-    
-</body>
-</html>

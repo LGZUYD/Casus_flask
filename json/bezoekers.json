@@ -1,3 +1,30 @@
 {
-
+    "G-0": {
+        "naam": "Lucas",
+        "parkeerplaats": null,
+        "evenementen": [],
+        "bevoegdheid": "bezoeker",
+        "unieke_ID": "G-0"
+    },
+    "A-0": {
+        "naam": "Lucas",
+        "parkeerplaats": null,
+        "evenementen": [],
+        "bevoegdheid": "beheerder",
+        "unieke_ID": "A-0"
+    },
+    "G-1": {
+        "naam": "fafadsfdsafdsa",
+        "parkeerplaats": null,
+        "evenementen": [],
+        "bevoegdheid": "bezoeker",
+        "unieke_ID": "G-1"
+    },
+    "P-0": {
+        "naam": "dsadsds",
+        "parkeerplaats": null,
+        "evenementen": [],
+        "bevoegdheid": "presentator",
+        "unieke_ID": "P-0"
+    }
 }

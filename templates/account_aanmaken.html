@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
+    {% block css %}
     <link rel="stylesheet" href="/static/css/account_aanmaken.css">
-    
-</head>
-<body>
-    <div id="container">
+    {% endblock %}
+    {%block content%}
         <form id="login_form" method="POST">
             
             <div>
@@ -26,7 +21,4 @@
 
                 <input type="submit" value="Submit">
         </form>
-        
-    </div>
-</body>
-</html>
+        {%endblock%}

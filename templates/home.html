@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/home_styles.css">
-    <title>{{account_instance.bevoegdheid}} {{account_instance.naam}}</title>
-</head>
-<body>
-    <div id="container">
-        
+{% extends 'base.html' %}
+        {% block css %}
+            <link rel="stylesheet" href="/static/css/home_styles.css">
+        {% endblock %}
+    {%block title%}{{account_instance.bevoegdheid}} {{account_instance.naam}}{%endblock%}
+    
+    {%block content%}
+    <div><!-- deze div misschien fout -->    
         <div id="name">
             Naam:
             {{account_instance.naam}}
@@ -27,16 +24,10 @@
         <a href=evenementen><button> Evenementen</button></a>
 
         {% if account_instance.bevoegdheid == "beheerder" %}
-        
         <div id="evenement_aanmaken" class="buttons">
             <a href=evenement_aanmaken ><button>evenement_aanmaken</button></a>
         </div>
-
-
         {% endif %}
 
     </div>
-
-
-</body>
-</html>
+    {%endblock%}

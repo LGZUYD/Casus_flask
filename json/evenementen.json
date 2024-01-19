@@ -1,3 +1,22 @@
 {
-  
+    "E-22": {
+        "evenementnaam": "aaaaa",
+        "locatie": "asdasdas",
+        "tijd": "asdasda",
+        "duur": "sadsad",
+        "presentator": "saddsadsa",
+        "bezoekers_limiet": 1,
+        "event_ID": "E-22",
+        "aanmeldingen": {}
+    },
+    "E-30": {
+        "evenementnaam": "gfdssgfd",
+        "locatie": "gfdsgfds",
+        "tijd": "gfdsgfds",
+        "duur": "gfdsgfds",
+        "presentator": "gfdsfds",
+        "bezoekers_limiet": 11,
+        "event_ID": "E-30",
+        "aanmeldingen": {}
+    }
 }

@@ -1,0 +1,15 @@
+#container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: lightblue;
+    border-style: groove;
+    border-radius: 25px;
+    padding: 10rem;
+    height: 100px;
+    width: 500px;
+}
+
+#body{
+    background-color: rgb(255, 255, 255);
+}

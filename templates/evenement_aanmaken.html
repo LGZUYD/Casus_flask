@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
+    {% block css %}
     <link rel="stylesheet" href="/static/css/evenement_aanmaken.css">
-</head>
-<body>
+    {% endblock %}
 
-    <div id="container">
-        <form id="evenement_form" method="POST">
+    {%block content%}
+        <form id="evenement_form" onsubmit="return form_validate()" method="POST">
             
             <div>
                 <label for="evenementnaam">Evenementnaam</label>
@@ -46,9 +42,9 @@
             </div>
 
             <div>
-                <label for="bezoekers_limiet">Bezoekers limiet [INT INVOEREN NOG GEEN CONTROLE]</label>
+                <label for="bezoekers_limiet">Bezoekers limiet</label>
                 <div>
-                    <input type="text" value="" name="bezoekers_limiet" placeholder="bezoekers limiet">
+                    <input type="text" value="" name="bezoekers_limiet" placeholder="Aantal bezoekers limiet">
                 </div>
             </div>
 
@@ -57,5 +53,45 @@
         
     </div>
     
-</body>
-</html>
+    <script>
+        function form_validate(){
+        
+            let evenementnaam = document.forms["evenement_form"]["evenementnaam"].value
+            if (evenementnaam === "") {
+                alert("Evenementnaam is niet ingevuld.");
+                return false;
+            }
+            
+            let locatie = document.forms["evenement_form"]["locatie"].value;
+            if (locatie === "") {
+                alert("Locatie is niet ingevuld.");
+                return false;
+            }
+            
+            let tijd = document.forms["evenement_form"]["tijd"].value;
+            if (tijd === "") {
+                alert("Starttijd is niet ingevuld.");
+                return false;
+            }
+            
+            let duur = document.forms["evenement_form"]["duur"].value;
+            if (duur === "") {
+                alert("Duur is niet ingevuld.");
+                return false;
+            }
+
+            let presentator = document.forms["evenement_form"]["presentator"].value;
+            if (presentator === "") {
+                alert("Presentator is niet ingevuld.");
+                return false;
+            }
+
+            let bezoekers_limiet = parseInt(document.forms["evenement_form"]["bezoekers_limiet"].value, 10);
+            if (bezoekers_limiet === "" || isNaN(bezoekers_limiet) || bezoekers_limiet <= 0) {
+                alert("Bezoekers limiet is niet correct ingevuld.");
+                return false;
+            }
+
+        }
+    </script>
+    {%endblock%}

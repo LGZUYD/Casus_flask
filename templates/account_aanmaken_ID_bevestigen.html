@@ -1,21 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/account_aanmaken.css">
-        <!-- niet de juiste css file maar werkt wel -->
-</head>
-<body>
-    
-    
+{% extends 'base.html' %}
 
-    <div id="container">
+{%block css%}
+    <link rel="stylesheet" href="/static/css/account_aanmaken_ID_bevestigen.css">
+{%endblock%}
+
+{%block content%}
         <p> Uw unieke identificatie code is: </p>
         <p><b> {{unieke_ID}}</b></p>
         <a href="/inloggen"><button>Inloggen</button></a>
-
-    </div>
-    
-</body>
-</html>
+{%endblock%}

@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/evenement_aanmaken.css">
-</head>
-<body>
+{% extends 'base.html' %}
+    {% block css%}
+    <link rel="stylesheet" href="/static/css/evenement_wijzigen.css">
+    {%endblock%}
 
-    <div id="container">
+    {%block content%}
         <form id="evenement_form" method="POST">
             
             <div>
@@ -46,7 +42,7 @@
             </div>
 
             <div>
-                <label for="bezoekers_limiet">Bezoekers limiet [INT INVOEREN NOG GEEN CONTROLE]</label>
+                <label for="bezoekers_limiet">Bezoekers limiet</label>
                 <div>
                     <input type="text" value="" name="bezoekers_limiet" placeholder="{{event_info['bezoekers_limiet']}}">
                 </div>
@@ -54,8 +50,4 @@
 
                 <input type="submit" value="Submit">
         </form>
-        
-    </div>
-    
-</body>
-</html>
+       {%endblock%} 
