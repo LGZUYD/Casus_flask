@@ -9,8 +9,6 @@ app.secret_key = "dhbbh"
 def hello_world():
     return render_template("index.html")
 
-
-
 @app.route('/account_aanmaken', methods=['GET', 'POST'])
 def aanmeld_submit():
 
@@ -40,7 +38,6 @@ def inlog_submit():
 
         inlog_code = request.form["unieke_code"]
 
-        #session
         session["unieke_ID"] = inlog_code
 
         # hier komen if statements omheen voor error checking dus dit is niet dubbel
@@ -50,24 +47,43 @@ def inlog_submit():
         # instances van objects als argument meegegeven gaat niet(of iig moeilijk), daarom pas in /home een instance maken met de data
         
         return redirect(url_for("gebruiker_home", unieke_ID=account_data_unieke_ID))
+    
+    else:
 
-    return render_template("inloggen.html")
-
+        if "unieke_ID" in session:
+            inlog_code = session["unieke_ID"]
+            return redirect(url_for("gebruiker_home", unieke_ID=inlog_code))
+        
+        return render_template("inloggen.html")
+    
+@app.route("/logout")
+def log_uit():
+    session.pop("unieke_ID", None)
+    return redirect(url_for("hello_world"))
 
 @app.route("/home")
 def gebruiker_home():
     
-    huidige_gebruiker_ID = request.args.get("unieke_ID")
-
-    account_instance = gebruiker_instance_aanmaken_met_json_data(huidige_gebruiker_ID)
+    if "unieke_ID" not in session or session["unieke_ID"] != request.args.get("unieke_ID"):
+            return render_template("toegang_geweigerd.html")
     
-    return render_template("home.html", account_instance=account_instance)
+    else:
+        
+        huidige_gebruiker_ID = session["unieke_ID"] or request.args.get("unieke_ID")
 
+        account_instance = gebruiker_instance_aanmaken_met_json_data(huidige_gebruiker_ID)
+        
+        return render_template("home.html", account_instance=account_instance)
+    
+        
 
 
 
 @app.route('/evenement_aanmaken', methods=['GET', 'POST'])
 def evenement_aanmaken():
+
+    if "A" not in session["unieke_ID"]:
+        return render_template("toegang_geweigerd.html")
 
     if request.method == 'POST':
 
@@ -148,6 +164,9 @@ def evenementen_bekijken():
 @app.route("/evenement_wijzigen", methods=['GET', 'POST'])
 def evenement_wijzigen_test():
     
+    if "A" not in session["unieke_ID"]:
+        return render_template("toegang_geweigerd.html")
+
     event_ID_voor_wijzigen = request.args.get("event_ID_voor_wijzigen")
 
     event_info = evenement_informatie_vinden_in_json(event_ID_voor_wijzigen)

@@ -1,13 +1,16 @@
 #container{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-around;
     background-color: lightblue;
     border-style: groove;
     border-radius: 25px;
-    padding: 10rem;
-    height: 100px;
-    width: 500px;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 5%;
+    height: 750px;
+
 }
 
 #body{
