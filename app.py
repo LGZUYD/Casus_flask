@@ -74,10 +74,7 @@ def gebruiker_home():
         account_instance = gebruiker_instance_aanmaken_met_json_data(huidige_gebruiker_ID)
         
         return render_template("home.html", account_instance=account_instance)
-    
-        
-
-
+     
 
 @app.route('/evenement_aanmaken', methods=['GET', 'POST'])
 def evenement_aanmaken():
@@ -150,7 +147,7 @@ def evenementen_bekijken():
 
             event_ID_voor_wijzigen = eventlist[int(request.form["index"])]["event_ID"]
             
-            return redirect(url_for("evenement_wijzigen_test", event_ID_voor_wijzigen=event_ID_voor_wijzigen))
+            return redirect(url_for("evenement_wijzigen", event_ID_voor_wijzigen=event_ID_voor_wijzigen))
 
             
     return render_template("evenementen.html", len=len(eventlist), eventlist=eventlist, bevoegdheid=session_acc_bevoegdheid, session_gebruiker=session_gebruiker)
@@ -162,7 +159,7 @@ def evenementen_bekijken():
     
 
 @app.route("/evenement_wijzigen", methods=['GET', 'POST'])
-def evenement_wijzigen_test():
+def evenement_wijzigen():
     
     if "A" not in session["unieke_ID"]:
         return render_template("toegang_geweigerd.html")
@@ -173,14 +170,22 @@ def evenement_wijzigen_test():
     
     if request.method == 'POST':
 
-        data_om_te_veranderen = {}
+        if "Wijzigen" in request.form:
+            
+            data_om_te_veranderen = {}
 
-        for i in request.form:
-            if request.form[i] != '':
-                data_om_te_veranderen[i] = request.form[i]
+            for i in request.form:
+                if request.form[i] != '':
+                    data_om_te_veranderen[i] = request.form[i]
+            
+            evenement_informatie_wijzigen_in_json_data(event_ID_voor_wijzigen, data_om_te_veranderen)
+
+            return redirect(url_for("evenementen_bekijken"))
         
-        evenement_informatie_wijzigen_in_json_data(event_ID_voor_wijzigen, data_om_te_veranderen)
+        elif "Verwijderen" in request.form:
 
-        return redirect(url_for("evenementen_bekijken"))             
+            evenement_verwijderen_in_json(event_ID_voor_wijzigen)
+            return redirect(url_for("evenementen_bekijken"))
+        
         
     return render_template("evenement_wijzigen.html", event_info=event_info)

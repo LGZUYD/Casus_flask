@@ -68,6 +68,16 @@ def evenement_instance_aanmaken_met_json_data(event_ID):
     # hetzelfde als bij gebruiker_instance_aanmaken_met_json_data(), daar uitgelegd
     return Evenement.info_from_dict(evenement_informatie_vinden_in_json(event_ID))
 
+def evenement_verwijderen_in_json(event_ID):
+
+    with open("json/evenementen.json", "r") as json_file:
+        data = json.load(json_file)
+        data.pop(event_ID)
+
+    with open("json/evenementen.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
+
+
 
 def evenement_informatie_wijzigen_in_json_data(event_ID, verander_data):
     

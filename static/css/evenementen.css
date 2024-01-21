@@ -1,8 +1,10 @@
 #event_container{
     background-color: azure;
     border-style: groove;
-    margin:1%;
+    margin:auto;
     padding: 1%;
     height: fit-content;
+    width: 300px;
     border-radius: 25px;
+    box-shadow: 2px 2px 5px;
 }
