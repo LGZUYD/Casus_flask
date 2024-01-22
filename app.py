@@ -25,7 +25,9 @@ def aanmeld_submit():
 
 @app.route('/account_aanmaken/ID_bevestigen')
 def unieke_ID_bevestigen():
-
+    
+    # als account aangemaakt wordt, wordt huidige gebruiker uitgelogd
+    session.pop("unieke_ID", None)
     unieke_ID = request.args.get("unieke_ID")    
     
     return render_template("account_aanmaken_ID_bevestigen.html", unieke_ID=unieke_ID)
@@ -90,7 +92,8 @@ def evenement_aanmaken():
         tijd=request.form['tijd'],
         duur=request.form['duur'],
         presentator=request.form['presentator'],
-        bezoekers_limiet=request.form['bezoekers_limiet'])
+        bezoekers_limiet=request.form['bezoekers_limiet'],
+        beschrijving=request.form['beschrijving'])
 
         evenement_aanmaken_in_json(nieuw_evenement)
         return redirect(url_for("evenementen_bekijken"))
@@ -175,7 +178,7 @@ def evenement_wijzigen():
             data_om_te_veranderen = {}
 
             for i in request.form:
-                if request.form[i] != '':
+                if request.form[i] != '' and i != "Wijzigen":
                     data_om_te_veranderen[i] = request.form[i]
             
             evenement_informatie_wijzigen_in_json_data(event_ID_voor_wijzigen, data_om_te_veranderen)

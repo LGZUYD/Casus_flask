@@ -1,3 +1,32 @@
 {
-
+    "A-2": {
+        "naam": "lucas",
+        "parkeerplaats": null,
+        "evenementen": [],
+        "bevoegdheid": "beheerder",
+        "unieke_ID": "A-2"
+    },
+    "G-3": {
+        "naam": "Lucas",
+        "parkeerplaats": null,
+        "evenementen": [],
+        "bevoegdheid": "bezoeker",
+        "unieke_ID": "G-3"
+    },
+    "A-3": {
+        "naam": "Lucas",
+        "parkeerplaats": null,
+        "evenementen": [],
+        "bevoegdheid": "beheerder",
+        "unieke_ID": "A-3"
+    },
+    "G-4": {
+        "naam": "Lucas",
+        "parkeerplaats": null,
+        "evenementen": [
+            "E-6"
+        ],
+        "bevoegdheid": "bezoeker",
+        "unieke_ID": "G-4"
+    }
 }

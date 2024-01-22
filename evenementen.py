@@ -3,7 +3,7 @@ import gebruikers
     
 class Evenement:
 
-    def __init__(self, naam=None, locatie=None, tijd=None, duur=None, presentator=None, bezoekers_limiet=None, event_ID=None, aanmeldingen=None):
+    def __init__(self, naam=None, locatie=None, tijd=None, duur=None, presentator=None, bezoekers_limiet=None, event_ID=None, aanmeldingen=None, beschrijving=None):
         
         self.naam = naam
         self.locatie = locatie
@@ -13,6 +13,7 @@ class Evenement:
         self.bezoekers_limiet = int(bezoekers_limiet)
         self.event_ID =  event_ID or self.event_id_generator() 
         self.aanmeldingen = aanmeldingen or {}
+        self.beschrijving = beschrijving
 
         #self.informatie = self.__evenement_informatie_to_dict__() # ?
 
@@ -40,7 +41,8 @@ class Evenement:
             'presentator': self.presentator,
             'bezoekers_limiet': self.bezoekers_limiet,
             "event_ID":self.event_ID,
-            'aanmeldingen': self.aanmeldingen
+            'aanmeldingen': self.aanmeldingen,
+            'beschrijving':self.beschrijving
         }
         
         return informatie
@@ -55,7 +57,8 @@ class Evenement:
             evenement_data['presentator'],
             evenement_data['bezoekers_limiet'],
             evenement_data['event_ID'],
-            evenement_data['aanmeldingen']
+            evenement_data['aanmeldingen'],
+            evenement_data['beschrijving']
         )
 
     def check_bezoekers_limiet(self):

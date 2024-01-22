@@ -1,3 +1,15 @@
 {
-
+    "E-6": {
+        "evenementnaam": "a",
+        "locatie": "a",
+        "tijd": "n",
+        "duur": "g",
+        "presentator": "g",
+        "bezoekers_limiet": 10,
+        "event_ID": "E-6",
+        "aanmeldingen": {
+            "G-4": "Lucas"
+        },
+        "beschrijving": "afdsasdfdasdsf"
+    }
 }
