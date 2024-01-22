@@ -1,0 +1,25 @@
+#login_form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+}
+
+#unieke_id{
+ 
+text-align: center;
+padding-right: 30%;
+padding-left: 30%;
+margin: 10%;
+border: inset;
+border-radius: 10px;
+    background-color: rgb(235, 229, 222);
+    font-size: 20px;
+}
+
+
+
+#submit-button{
+    margin-top: 50%;
+} 

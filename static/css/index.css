@@ -1,13 +1,20 @@
 .buttons{
-    background-color: #a4c0f5; 
+    background-color: #ced7eb; 
     border-style: outset;
-    border-radius: 25px;
-    color: rgb(0, 0, 0);
-    padding: 50px 50px ;
+    border-color: #6F8AB7;
+    border-radius: 20px;
+    color: #29274C;
+    /* padding: 20px; */
+    /* margin-left:auto;
+    margin-right:auto; */
+    margin-bottom:15%;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 30px;
     height: fit-content;
     
+}
+
+.buttons:hover{
+    background-color:#FBFBFB;
 }

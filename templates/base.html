@@ -4,13 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/base.css">
-    {% block css%}{%endblock%}
-    <title>{% block title%}{%endblock%}</title>
+    {%block css%}{%endblock%}
+    <title>{%block title%}{%endblock%}</title>
 </head>
-<body id="body">
-    <div id="container">
-        {%block content%}
-        {%endblock%}
+<body>
+    <header id="header">ZieDit</header>
+    
+    <div id="navAndContent-container">
+        <div id="navbar-container">
+            <ul id="navbar">
+                <a href=home> <li class="navbar-button">Home</li></a>
+                <!-- mist nog <a></a>-->
+                <li class="navbar-button">Parkeerplaats</li>
+                
+                <a href=evenementen><li class="navbar-button">Evenementen</li></a>
+        
+                <li class="navbar-button" class="beheerder">Bezoekers</li>
+
+                <a href=logout><li class="navbar-button">Log Uit</li></a>
+            </ul>
+        </div>
+        <div id="content-container">
+            {%block content%}
+            {%endblock%}
+        </div>
     </div>
 
 </body>

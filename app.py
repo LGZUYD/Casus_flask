@@ -66,7 +66,7 @@ def log_uit():
 @app.route("/home")
 def gebruiker_home():
     
-    if "unieke_ID" not in session or session["unieke_ID"] != request.args.get("unieke_ID"):
+    if "unieke_ID" not in session and session["unieke_ID"] != request.args.get("unieke_ID"):
             return render_template("toegang_geweigerd.html")
     
     else:

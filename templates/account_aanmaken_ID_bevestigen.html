@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_registratie.html' %}
 
 {%block css%}
     <link rel="stylesheet" href="/static/css/account_aanmaken_ID_bevestigen.css">
@@ -7,6 +7,6 @@
 {%block content%}
 
         <div id="para">Uw unieke identificatie code is: </div>
-        <div id="para"><b> {{unieke_ID}}</b></div>
-        <div id="para"><a href="/inloggen"><button>Inloggen</button></div>
+        <div id="unieke_id"><b> {{unieke_ID}}</b></div>
+        <div ><a href="/inloggen"><button class="buttons">Inloggen</button></div>
 {%endblock%}

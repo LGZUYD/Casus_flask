@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_registratie.html' %}
         {% block css %}
             <link rel="stylesheet" href="/static/css/inloggen.css">
         {% endblock %}
@@ -6,14 +6,13 @@
         {%block content%}
         <form id="login_form" method="POST">
             
-            <div>
-                <label for="unieke_code">Unieke ID</label>
+                <label for="unieke_code" id="unieke_id"><b>Unieke ID</b></label>
                 <div>
                     <input type="text" value="" name="unieke_code" placeholder="Uw unieke ID">
                 </div>
-            </div>
+           
             
-            <input type="submit" value="Submit">
+            <input type="submit" value="Login" class="buttons" id="submit-button">
         </form>
         {%endblock%}
         

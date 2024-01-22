@@ -5,6 +5,10 @@
 
 {%block content%}
 
+        {% if bevoegdheid == "beheerder" %}
+        <a href=evenement_aanmaken><button>Evenement Aanmaken</button></a>
+        {% endif %}
+
         {% for i in range(len)%}
           <div id="event_container">
         
