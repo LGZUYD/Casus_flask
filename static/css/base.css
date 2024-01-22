@@ -12,6 +12,7 @@ html, body{
     font-size: 80px;
     padding:5%;
     background-color: rgb(231, 227, 227);
+    border-bottom:solid black
 }
 
 #navAndContent-container{
