@@ -81,11 +81,20 @@ def gebruiker_home():
 @app.route('/evenement_aanmaken', methods=['GET', 'POST'])
 def evenement_aanmaken():
 
-    if "A" not in session["unieke_ID"]:
+    if "A" not in session["unieke_ID"] and "P" not in session["unieke_ID"]:
         return render_template("toegang_geweigerd.html")
+    
+    huidige_presentator = False
+
+    if "P" in session["unieke_ID"]:
+        presentator_gebruiker_info = account_informatie_vinden_in_json(session["unieke_ID"])
+        huidige_presentator = True
+
+    presentator_lijst = presentator_lijst_uit_json_maken()
 
     if request.method == 'POST':
-    
+
+     
         startTijd = request.form['startTijd']
         eindTijd = request.form['eindTijd']
         locatie = request.form['locatie']
@@ -97,12 +106,22 @@ def evenement_aanmaken():
             error_message = f'Overlapping gevonden met evenement {overlapping[0]} op locatie {overlapping[1]}. <br>Starttijd: {overlapping[2]["uur"]:02d}:{overlapping[2]["minuten"]:02d} <br>Eindtijd: {overlapping[3]["uur"]:02d}:{overlapping[3]["minuten"]:02d}'          
             return render_template("evenement_aanmaken.html", error_message=error_message) 
 
+        # De 'presentator' invul optie op de pagina wordt alleen maar weergegeven bij beheerders die een evenement aanmaken,
+        # Als een presentator een evenement aanmaakt, wordt dit veld automatisch als presentator ingevuld.
+        try:
+            presentator_naam = account_informatie_vinden_in_json(request.form["presentator"])["naam"]
+            presentator = {request.form["presentator"] : presentator_naam}
+        except:
+            presentator = {session["unieke_ID"] : presentator_gebruiker_info["naam"]} 
+        
+        # presentator = request.form["presentator"] or {session["unieke_ID"] : presentator_gebruiker_info["naam"]} 
+
         nieuw_evenement = Evenement(
         naam=request.form['evenementnaam'],
         locatie=request.form['locatie'],
         startTijd=startTijd,
         eindTijd=eindTijd,
-        presentator=request.form['presentator'],
+        presentator=presentator,
         bezoekers_limiet=request.form['bezoekers_limiet'],
         beschrijving=request.form['beschrijving'])
 
@@ -110,7 +129,7 @@ def evenement_aanmaken():
 
         return redirect(url_for("evenementen_bekijken"))
         
-    return render_template("evenement_aanmaken.html") 
+    return render_template("evenement_aanmaken.html", huidige_presentator=huidige_presentator, presentator_lijst=presentator_lijst) 
 
 
 
@@ -132,6 +151,7 @@ def evenementen_bekijken():
        
         if "Inschrijven" in request.form:
 
+            # ?
             session_acc_naam = account_informatie_vinden_in_json(session["unieke_ID"])["naam"]
             
             event_ID_voor_inschrijven = eventlist[int(request.form["index"])]["event_ID"]
@@ -175,12 +195,14 @@ def evenementen_bekijken():
 @app.route("/evenement_wijzigen", methods=['GET', 'POST'])
 def evenement_wijzigen():
     
-    if "A" not in session["unieke_ID"]:
+    if "A" not in session["unieke_ID"] and "P" not in session["unieke_ID"]:
         return render_template("toegang_geweigerd.html")
 
     event_ID_voor_wijzigen = request.args.get("event_ID_voor_wijzigen")
 
     event_info = evenement_informatie_vinden_in_json(event_ID_voor_wijzigen)
+    
+    presentator_lijst = presentator_lijst_uit_json_maken()
     
     if request.method == 'POST':
 
@@ -190,11 +212,18 @@ def evenement_wijzigen():
 
             for i in request.form:
                 if request.form[i] != '' and i != "Wijzigen":
-                    data_om_te_veranderen[i] = request.form[i]
 
+                    if i == "presentator":     
+                        presentator_naam = account_informatie_vinden_in_json(request.form[i])["naam"]
+                        data_om_te_veranderen[i] = {request.form[i] : presentator_naam}
+                    else:
+                        data_om_te_veranderen[i] = request.form[i]
 
+            if len(data_om_te_veranderen) == 0:
+                return redirect(url_for("evenementen_bekijken"))
+            
             # dit controleert op alle mogelijke combinaties van informatie dat betrekking heeft op overlappingsmogelijkheid      
-                    
+            overlapping = False        
             # locatie True && eindTijd False && startTijd False 
             if 'locatie' in data_om_te_veranderen and 'eindTijd' not in data_om_te_veranderen and 'startTijd' not in data_om_te_veranderen:
                 overlapping = evenementen_overlapping_controle(event_info['startTijd'], event_info['eindTijd'], data_om_te_veranderen["locatie"])
@@ -219,7 +248,6 @@ def evenement_wijzigen():
             elif 'startTijd' not in data_om_te_veranderen and 'eindTijd' in data_om_te_veranderen and 'locatie' not in data_om_te_veranderen:        
                 overlapping = evenementen_overlapping_controle(event_info['startTijd'], data_om_te_veranderen['eindTijd'], event_info["locatie"])
 
-
             if overlapping != False:
                 error_message = f'Overlapping gevonden met evenement {overlapping[0]} op locatie {overlapping[1]}. <br>Starttijd: {overlapping[2]["uur"]:02d}:{overlapping[2]["minuten"]:02d} <br>Eindtijd: {overlapping[3]["uur"]:02d}:{overlapping[3]["minuten"]:02d}'
                 return render_template("evenement_wijzigen.html", event_info=event_info, error_message=error_message)
@@ -237,4 +265,4 @@ def evenement_wijzigen():
             return redirect(url_for("evenementen_bekijken"))
         
         
-    return render_template("evenement_wijzigen.html", event_info=event_info)
+    return render_template("evenement_wijzigen.html", event_info=event_info, presentator_lijst=presentator_lijst, session_gebruiker=session["unieke_ID"])

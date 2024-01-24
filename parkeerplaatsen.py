@@ -45,4 +45,3 @@ def parkeerplaats_vinden_op_unieke_code(unieke_code):
     
     return "Geen parkeerplaats gevonden voor deze ID code"
             
-# hele file is onleesbaar maar werkt prima lol

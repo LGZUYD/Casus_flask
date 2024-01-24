@@ -38,13 +38,32 @@
             {% if error_message %}
             <div class="error">{{ error_message | safe }}</div>
             {% endif %}
-
+            
+            
+            {% if "P" not in session_gebruiker%}
+            <label for="presentator">Presentator</label>
             <div>
+                <select name="presentator">
+                    {% for unieke_id in event_info['presentator'] %}
+                        <option value="" selected disabled>{{ event_info['presentator'] }}</option>
+                    {% endfor %}
+
+                    {% for presentator in presentator_lijst %}
+                        {% for unieke_id, name in presentator.items() %}
+                            <option value="{{ unieke_id }}">{{ unieke_id}}: {{ name }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+            </div>
+            {%endif%}
+        
+
+            <!-- <div>
                 <label for="presentator">Presentator</label>
                 <div>
                     <input type="text" value="" name="presentator" placeholder="{{event_info['presentator']}}">
                 </div>
-            </div>
+            </div> -->
 
             <div>
                 <label for="bezoekers_limiet">Bezoekers limiet</label>

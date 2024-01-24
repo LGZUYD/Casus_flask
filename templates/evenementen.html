@@ -5,7 +5,7 @@
 
 {%block content%}
 
-        {% if bevoegdheid == "beheerder" %}
+        {% if bevoegdheid == "beheerder" or bevoegdheid == "presentator" %}
         <a href=evenement_aanmaken><button>Evenement Aanmaken</button></a>
         {% endif %}
 
@@ -17,7 +17,11 @@
             <div>Datum: {{eventlist[i]["startTijd"][:10]}}</div>
             <div>Starttijd: {{eventlist[i]["startTijd"][-5:]}}</div>
             <div>Eindijd: {{eventlist[i]["eindTijd"][-5:]}}</div>
-            <div>Presentator: {{eventlist[i]["presentator"]}}</div>
+            <div>Presentator: 
+                {% for value in eventlist[i]["presentator"].values() %}
+                {{ value }}
+                {% endfor %}
+            </div>
             <div>Beschrijving: {{eventlist[i]["beschrijving"]}}</div>
 
             {% if session_gebruiker in eventlist[i].aanmeldingen %}
@@ -49,13 +53,13 @@
         
         <form method="post">
             <input type="hidden" name="index" value="{{ i }}">
-            {%if eventlist[i].aanmeldingen|length != eventlist[i]["bezoekers_limiet"] and session_gebruiker not in eventlist[i].aanmeldingen%}
+            {%if eventlist[i].aanmeldingen|length != eventlist[i]["bezoekers_limiet"] and session_gebruiker not in eventlist[i].aanmeldingen and session_gebruiker not in eventlist[i]["presentator"]%} 
             <input type="submit" name="Inschrijven" value="Inschrijven">
             {%endif%}
             {%if session_gebruiker in eventlist[i].aanmeldingen %}
             <input type="submit" name="Uitschrijven" value="Uitschrijven">
             {%endif%}
-            {% if bevoegdheid == "beheerder" %}
+            {% if bevoegdheid == "beheerder" or session_gebruiker in eventlist[i]["presentator"]%}
             <a href=evenement_wijzigen ><input type="submit" name="Wijzigen" value="Wijzigen"></a>
             {%endif%}
         </form>

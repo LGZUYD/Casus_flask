@@ -118,6 +118,8 @@ def evenement_verwijderen_in_json(event_ID):
         data = json.load(json_file)
         data.pop(event_ID)
 
+        # hier in de identificators json -1 doen bij evenementen
+
     with open("json/evenementen.json", "w") as json_file:
         json.dump(data, json_file, indent=4)
 
@@ -189,4 +191,20 @@ def bezoeker_uitschrijven_evenement_in_json(evenement_ID, bezoeker_ID):
 
     with open("json/evenementen.json", "w") as event_file:
         json.dump(event_data, event_file, indent=4)
+
+
+# for event in unieke_ID["aanmeldingen"]:    
+
+def presentator_lijst_uit_json_maken():
+
+    with open("json/bezoekers.json", "r") as json_file:
+        data = json.load(json_file)
+        
+        presentator_lijst = []
+
+        for bezoeker in data:
+            if data[bezoeker]["bevoegdheid"] == 'presentator':
+                presentator_lijst.append( { bezoeker:data[bezoeker]["naam"] } )
     
+    return presentator_lijst
+        

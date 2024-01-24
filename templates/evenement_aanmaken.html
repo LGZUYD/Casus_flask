@@ -37,13 +37,26 @@
             {% if error_message %}
             <div class="error">{{ error_message | safe }}</div>
             {% endif %}
-
-            <div>
-                <label for="presentator">Presentator</label>
+            
+            {% if not huidige_presentator %}
+            <label for="presentator">Presentator</label>
+                <div>
+                    <select name="presentator" id="presentator_select">
+                        {% for presentator in presentator_lijst %}
+                            {% for unieke_id, name in presentator.items() %}
+                                <option value="{{ unieke_id }}">{{ unieke_id}}: {{ name }}</option>
+                            {% endfor %}
+                        {% endfor %}
+                    </select>
+                </div>
+            {% endif %}
+            <!-- <div>
+                
+                
                 <div>
                     <input type="text" value="" name="presentator" placeholder="Presentator">
                 </div>
-            </div>
+            </div> -->
 
             <div>
                 <label for="bezoekers_limiet">Bezoekers limiet</label>
@@ -110,7 +123,7 @@
                 return false;
             }
 
-            let presentator = document.forms["evenement_form"]["presentator"].value;
+            let presentator = document.getElementById("presentator_select").value;
             if (presentator === "") {
                 alert("Presentator is niet ingevuld.");
                 return false;
