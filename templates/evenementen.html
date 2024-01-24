@@ -14,8 +14,9 @@
         
             <div>Naam: {{eventlist[i]["evenementnaam"]}}</div>
             <div>Locatie: {{eventlist[i]["locatie"]}}</div>
-            <div>Tijd: {{eventlist[i]["tijd"]}}</div>
-            <div>Duur: {{eventlist[i]["duur"]}}</div>
+            <div>Datum: {{eventlist[i]["startTijd"][:10]}}</div>
+            <div>Starttijd: {{eventlist[i]["startTijd"][-5:]}}</div>
+            <div>Eindijd: {{eventlist[i]["eindTijd"][-5:]}}</div>
             <div>Presentator: {{eventlist[i]["presentator"]}}</div>
             <div>Beschrijving: {{eventlist[i]["beschrijving"]}}</div>
 

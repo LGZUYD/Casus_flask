@@ -56,6 +56,50 @@ def evenement_aanmaken_in_json(nieuw_evenement):
         json.dump(ID_data, json_file, indent=4)
 
 
+
+def tijd_code_converten(tijd_code):
+
+        return{
+        'jaar': int(tijd_code[0:4]),
+        'maand': int(tijd_code[5:7]),
+        'dag': int(tijd_code[8:10]),
+        'uur': int(tijd_code[11:13]),
+        'minuten': int(tijd_code[14:])
+        }
+
+
+def evenementen_overlapping_controle(te_controleren_starttijd, te_controleren_eindtijd, te_controleren_locatie):
+    
+    start_tijd = tijd_code_converten(te_controleren_starttijd)
+    eind_tijd = tijd_code_converten(te_controleren_eindtijd)
+
+    with open("json/evenementen.json", "r") as json_file:
+        data = json.load(json_file)
+
+    for event in data:
+
+        event_locatie = data[event]["locatie"]
+
+        if event_locatie == te_controleren_locatie:
+            
+            event_start_tijd = tijd_code_converten(data[event]['startTijd'])
+            event_eind_tijd = tijd_code_converten(data[event]['eindTijd'])
+            
+            if (event_eind_tijd['jaar'] == start_tijd['jaar'] and
+                event_eind_tijd['maand'] == start_tijd['maand'] and
+                event_eind_tijd['dag'] == start_tijd['dag'] and
+                ((event_eind_tijd['uur'] > start_tijd['uur']) or
+                (event_eind_tijd['uur'] == start_tijd['uur'] and
+                event_eind_tijd['minuten'] >= start_tijd['minuten'])) and
+                ((event_start_tijd['uur'] < eind_tijd['uur']) or
+                (event_start_tijd['uur'] == eind_tijd['uur'] and
+                event_start_tijd['minuten'] <= eind_tijd['minuten']))):
+                
+                return [event, event_locatie, event_start_tijd, event_eind_tijd]
+
+    return False
+    
+
 def evenement_informatie_vinden_in_json(event_ID):
 
     with open("json/evenementen.json", "r") as json_file:

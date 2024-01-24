@@ -21,18 +21,22 @@
             </div>
 
             <div>
-                <label for="tijd">Starttijd</label>
+                <label for="startTijd">Starttijd</label>
                 <div>
-                    <input type="text" value="" name="tijd" placeholder="Starttijd van dit evenement">
+                    <input type="datetime-local" value="" name="startTijd" placeholder="Starttijd van dit evenement">
                 </div>
             </div>
 
             <div>
-                <label for="duur">Duur</label>
+                <label for="eindTijd">Eindtijd</label>
                 <div>
-                    <input type="text" value="" name="duur" placeholder="Duur van dit evenement">
+                    <input type="datetime-local" value="" name="eindTijd" placeholder="Eindtijd van dit evenement">
                 </div>
             </div>
+
+            {% if error_message %}
+            <div class="error">{{ error_message | safe }}</div>
+            {% endif %}
 
             <div>
                 <label for="presentator">Presentator</label>
@@ -49,7 +53,7 @@
             </div>
 
             <div>
-                <label for="bezoekers_limiet">Beschrijving</label>
+                <label for="beschrijving">Beschrijving</label>
                 <div>
                     <input type="text" value="" name="beschrijving" placeholder="Beschrijving van het evenement">
                 </div>
@@ -75,15 +79,34 @@
                 return false;
             }
             
-            let tijd = document.forms["evenement_form"]["tijd"].value;
-            if (tijd === "") {
+            let startTijd = document.forms["evenement_form"]["startTijd"].value;
+            if (startTijd === "") {
                 alert("Starttijd is niet ingevuld.");
                 return false;
             }
             
-            let duur = document.forms["evenement_form"]["duur"].value;
-            if (duur === "") {
-                alert("Duur is niet ingevuld.");
+            let eindTijd = document.forms["evenement_form"]["eindTijd"].value;
+            if (eindTijd === "") {
+                alert("Eindtijd is niet ingevuld.");
+                return false;
+            }
+
+            if (startTijd == eindTijd){
+                alert("Evenement starttijd en eindtijd zijn hetzelfde.")
+                return false;
+            }
+
+            if (startTijd.slice(0, 10) == eindTijd.slice(0, 10)){
+                
+                let startTijdInt = parseInt(startTijd.slice(-5, -3) + startTijd.slice(-2)) 
+                let eindTijdInt = parseInt(eindTijd.slice(-5, -3) + eindTijd.slice(-2)) 
+
+                if (eindTijdInt < startTijdInt){
+                    alert("Eindtijd kan niet eerder zijn dan begintijd.")
+                    return false;
+                }
+            }else if(startTijd.slice(0, 10) !== eindTijd.slice(0, 10)){
+                alert("Starttijd en eindtijd zijn niet op dezelfde dag.")
                 return false;
             }
 
@@ -98,6 +121,13 @@
                 alert("Bezoekers limiet is niet correct ingevuld.");
                 return false;
             }
+
+            let beschrijving = document.forms["evenement_form"]["beschrijving"].value;
+            if (beschrijving === "") {
+                alert("Beschrijving is niet ingevuld.");
+                return false;
+            }
+
 
         }
     </script>

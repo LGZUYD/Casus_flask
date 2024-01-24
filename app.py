@@ -85,20 +85,31 @@ def evenement_aanmaken():
         return render_template("toegang_geweigerd.html")
 
     if request.method == 'POST':
+    
+        startTijd = request.form['startTijd']
+        eindTijd = request.form['eindTijd']
+        locatie = request.form['locatie']
+
+        overlapping = evenementen_overlapping_controle(startTijd, eindTijd, locatie)
+
+        if overlapping != False:
+
+            error_message = f'Overlapping gevonden met evenement {overlapping[0]} op locatie {overlapping[1]}. <br>Starttijd: {overlapping[2]["uur"]:02d}:{overlapping[2]["minuten"]:02d} <br>Eindtijd: {overlapping[3]["uur"]:02d}:{overlapping[3]["minuten"]:02d}'          
+            return render_template("evenement_aanmaken.html", error_message=error_message) 
 
         nieuw_evenement = Evenement(
         naam=request.form['evenementnaam'],
         locatie=request.form['locatie'],
-        tijd=request.form['tijd'],
-        duur=request.form['duur'],
+        startTijd=startTijd,
+        eindTijd=eindTijd,
         presentator=request.form['presentator'],
         bezoekers_limiet=request.form['bezoekers_limiet'],
         beschrijving=request.form['beschrijving'])
 
         evenement_aanmaken_in_json(nieuw_evenement)
+
         return redirect(url_for("evenementen_bekijken"))
         
-
     return render_template("evenement_aanmaken.html") 
 
 
@@ -180,10 +191,45 @@ def evenement_wijzigen():
             for i in request.form:
                 if request.form[i] != '' and i != "Wijzigen":
                     data_om_te_veranderen[i] = request.form[i]
-            
-            evenement_informatie_wijzigen_in_json_data(event_ID_voor_wijzigen, data_om_te_veranderen)
 
-            return redirect(url_for("evenementen_bekijken"))
+
+            # dit controleert op alle mogelijke combinaties van informatie dat betrekking heeft op overlappingsmogelijkheid      
+                    
+            # locatie True && eindTijd False && startTijd False 
+            if 'locatie' in data_om_te_veranderen and 'eindTijd' not in data_om_te_veranderen and 'startTijd' not in data_om_te_veranderen:
+                overlapping = evenementen_overlapping_controle(event_info['startTijd'], event_info['eindTijd'], data_om_te_veranderen["locatie"])
+            
+            # locatie True && eindTijd True && startTijd False
+            elif 'locatie' in data_om_te_veranderen and 'eindTijd' in data_om_te_veranderen and 'startTijd' not in data_om_te_veranderen:
+                overlapping = evenementen_overlapping_controle(event_info['startTijd'], data_om_te_veranderen['eindTijd'], data_om_te_veranderen["locatie"])
+            
+            # locatie True && eindTijd False && startTijd True
+            elif 'locatie' in data_om_te_veranderen and 'eindTijd' not in data_om_te_veranderen and 'startTijd' in data_om_te_veranderen:
+                overlapping = evenementen_overlapping_controle(data_om_te_veranderen['startTijd'], event_info['eindTijd'], data_om_te_veranderen["locatie"])
+
+            # locatie True && startTijd True && eindTijd True
+            elif 'startTijd' in data_om_te_veranderen and 'eindTijd' in data_om_te_veranderen and 'locatie' in data_om_te_veranderen:    
+                overlapping = evenementen_overlapping_controle(data_om_te_veranderen['startTijd'], data_om_te_veranderen['eindTijd'], event_info["locatie"])
+            
+            # locatie False && startTijd True && eindTijd False
+            elif 'startTijd' in data_om_te_veranderen and 'eindTijd' not in data_om_te_veranderen and 'locatie' not in data_om_te_veranderen:
+                overlapping = evenementen_overlapping_controle(data_om_te_veranderen['startTijd'], event_info['eindTijd'], event_info["locatie"])
+            
+            # locatie False && startTijd False && eindTijd True
+            elif 'startTijd' not in data_om_te_veranderen and 'eindTijd' in data_om_te_veranderen and 'locatie' not in data_om_te_veranderen:        
+                overlapping = evenementen_overlapping_controle(event_info['startTijd'], data_om_te_veranderen['eindTijd'], event_info["locatie"])
+
+
+            if overlapping != False:
+                error_message = f'Overlapping gevonden met evenement {overlapping[0]} op locatie {overlapping[1]}. <br>Starttijd: {overlapping[2]["uur"]:02d}:{overlapping[2]["minuten"]:02d} <br>Eindtijd: {overlapping[3]["uur"]:02d}:{overlapping[3]["minuten"]:02d}'
+                return render_template("evenement_wijzigen.html", event_info=event_info, error_message=error_message)
+
+            else:
+
+                evenement_informatie_wijzigen_in_json_data(event_ID_voor_wijzigen, data_om_te_veranderen)
+
+                return redirect(url_for("evenementen_bekijken"))
+            
         
         elif "Verwijderen" in request.form:
 

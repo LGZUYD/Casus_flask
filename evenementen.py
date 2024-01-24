@@ -3,12 +3,12 @@ import gebruikers
     
 class Evenement:
 
-    def __init__(self, naam=None, locatie=None, tijd=None, duur=None, presentator=None, bezoekers_limiet=None, event_ID=None, aanmeldingen=None, beschrijving=None):
+    def __init__(self, naam=None, locatie=None, startTijd=None, eindTijd=None, presentator=None, bezoekers_limiet=None, event_ID=None, aanmeldingen=None, beschrijving=None):
         
         self.naam = naam
         self.locatie = locatie
-        self.tijd = tijd
-        self.duur = duur
+        self.startTijd = startTijd
+        self.eindTijd = eindTijd
         self.presentator = presentator
         self.bezoekers_limiet = int(bezoekers_limiet)
         self.event_ID =  event_ID or self.event_id_generator() 
@@ -36,8 +36,8 @@ class Evenement:
         informatie = {
             'evenementnaam': self.naam,
             'locatie': self.locatie,
-            'tijd': self.tijd,
-            'duur': self.duur,
+            'startTijd': self.startTijd,
+            'eindTijd': self.eindTijd,
             'presentator': self.presentator,
             'bezoekers_limiet': self.bezoekers_limiet,
             "event_ID":self.event_ID,
@@ -52,8 +52,8 @@ class Evenement:
         return cls(
             evenement_data['evenementnaam'],
             evenement_data['locatie'],
-            evenement_data['tijd'],
-            evenement_data['duur'],
+            evenement_data['startTijd'],
+            evenement_data['eindTijd'],
             evenement_data['presentator'],
             evenement_data['bezoekers_limiet'],
             evenement_data['event_ID'],

@@ -21,18 +21,23 @@
             </div>
 
             <div>
-                <label for="tijd">Starttijd</label>
+                <label for="startTijd">Starttijd</label>
                 <div>
-                    <input type="text" value="" name="tijd" placeholder="{{event_info['tijd']}}">
+                    <input type="datetime-local" value="" name="startTijd" placeholder="{{event_info['startTijd']}}">
                 </div>
             </div>
 
             <div>
-                <label for="duur">Duur</label>
+                <label for="Eindtijd">Eindtijd</label>
                 <div>
-                    <input type="text" value="" name="duur" placeholder="{{event_info['duur']}}">
+                    <input type="datetime-local" value="" name="eindTijd" placeholder="{{event_info['eindTijd']}}">
                 </div>
             </div>
+
+            
+            {% if error_message %}
+            <div class="error">{{ error_message | safe }}</div>
+            {% endif %}
 
             <div>
                 <label for="presentator">Presentator</label>
