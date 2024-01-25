@@ -3,12 +3,18 @@ from evenementen import *
 import json
 
 
+def alle_gebruikers_informatie_ophalen():
+
+    with open("json/bezoekers.json", "r") as json_file:
+        data = json.load(json_file)
+        return data
+
 def account_aanmaken_in_json(nieuwe_gebruiker):
     
     with open("json/bezoekers.json", "r") as json_file:
-        data = json.load(json_file)
+        data = json.load(json_file)    
         data[nieuwe_gebruiker.unieke_ID] = nieuwe_gebruiker.info_to_dict()
-            
+                
     with open("json/bezoekers.json", "w") as json_file:
         json.dump(data, json_file, indent=4)
 
@@ -20,6 +26,20 @@ def account_informatie_vinden_in_json(unieke_code):
         
         return data[unieke_code]
         
+def account_informatie_wijzigen_in_json(unieke_code, te_wijzigen_data, verandering):
+      
+    with open("json/bezoekers.json", "r") as json_file:
+        data = json.load(json_file)
+        
+        try:
+            data[unieke_code][te_wijzigen_data] = verandering
+        except KeyError:
+            print("Geen beschikbare data meegegeven als tweede argument voor 'account_informatie_wijzigen_in_json")
+            return
+              
+    with open("json/bezoekers.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
+
 
 def gebruiker_instance_aanmaken_met_json_data(unieke_code):
 

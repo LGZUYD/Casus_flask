@@ -24,9 +24,13 @@
             </div>
             <div>Beschrijving: {{eventlist[i]["beschrijving"]}}</div>
 
+            {% if session_gebruiker in eventlist[i]["presentator"] %}
+           <div><b> U bent geregistreerd als presentator voor dit evenement. </b></div>
+            {% endif %}
+
             {% if session_gebruiker in eventlist[i].aanmeldingen %}
             <div><b>U bent voor dit evenement aangemeld.</b></div>
-            {% endif%}
+            {% endif %}
             
             <!-- kunt geen len() gebruiken in flask, ipv kijk hier onder-->
             {%if eventlist[i].aanmeldingen|length == eventlist[i]["bezoekers_limiet"] and session_gebruiker not in eventlist[i].aanmeldingen %}

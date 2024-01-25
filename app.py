@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from gebruikers import *
 from json_functies import *
 import unieke_identificator_generator
+import parkeerplaats_functies
 
 app = Flask(__name__)
 app.secret_key = "dhbbh"
@@ -104,7 +105,7 @@ def evenement_aanmaken():
         if overlapping != False:
 
             error_message = f'Overlapping gevonden met evenement {overlapping[0]} op locatie {overlapping[1]}. <br>Starttijd: {overlapping[2]["uur"]:02d}:{overlapping[2]["minuten"]:02d} <br>Eindtijd: {overlapping[3]["uur"]:02d}:{overlapping[3]["minuten"]:02d}'          
-            return render_template("evenement_aanmaken.html", error_message=error_message) 
+            return render_template("evenement_aanmaken.html", error_message=error_message, huidige_presentator=huidige_presentator) 
 
         # De 'presentator' invul optie op de pagina wordt alleen maar weergegeven bij beheerders die een evenement aanmaken,
         # Als een presentator een evenement aanmaakt, wordt dit veld automatisch als presentator ingevuld.
@@ -114,7 +115,6 @@ def evenement_aanmaken():
         except:
             presentator = {session["unieke_ID"] : presentator_gebruiker_info["naam"]} 
         
-        # presentator = request.form["presentator"] or {session["unieke_ID"] : presentator_gebruiker_info["naam"]} 
 
         nieuw_evenement = Evenement(
         naam=request.form['evenementnaam'],
@@ -266,3 +266,36 @@ def evenement_wijzigen():
         
         
     return render_template("evenement_wijzigen.html", event_info=event_info, presentator_lijst=presentator_lijst, session_gebruiker=session["unieke_ID"])
+
+@app.route("/parkeerplaatsen", methods=["GET", "POST"])
+def parkeerplaatsen():
+
+    session_gebruiker = account_informatie_vinden_in_json(session["unieke_ID"])
+   
+    if session_gebruiker["parkeerplaats"]:
+        plaats_gereserveerd = True
+    else:
+        plaats_gereserveerd = False
+        
+    print(plaats_gereserveerd)
+
+    if request.method == 'POST':
+
+        if "Reserveren" in request.form:
+            
+            gereserveerde_parkeerplaats = parkeerplaats_functies.parkeerplaats_reserveren(session["unieke_ID"])
+            account_informatie_wijzigen_in_json(session["unieke_ID"], "parkeerplaats", gereserveerde_parkeerplaats)
+
+            plaats_gereserveerd = True
+
+            return render_template("parkeerplaatsen.html", plaats_gereserveerd=plaats_gereserveerd)
+
+        elif "Annuleren" in request.form:
+            parkeerplaats_functies.parkeerplaats_verwijderen(session_gebruiker["parkeerplaats"])
+            account_informatie_wijzigen_in_json(session["unieke_ID"], "parkeerplaats", None)
+
+            plaats_gereserveerd = False
+
+            return render_template("parkeerplaatsen.html", plaats_gereserveerd=plaats_gereserveerd)
+        
+    return render_template("parkeerplaatsen.html", plaats_gereserveerd=plaats_gereserveerd)

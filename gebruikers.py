@@ -1,12 +1,13 @@
 import json
 import unieke_identificator_generator
-import parkeerplaatsen
+import parkeerplaats_functies
 
 class Gebruiker:
 
     def __init__(self, naam, parkeerplaats=None, evenementen=None, bevoegdheid="bezoeker", unieke_code=None):
         
         self.naam = naam
+        # self.password = password
         self.parkeerplaats = parkeerplaats
         self.geregistreerde_evenementen = evenementen or []
         self.bevoegdheid = bevoegdheid
@@ -19,7 +20,7 @@ class Gebruiker:
          
     def __parkeerplaats_reserveren__(self):
         if self.parkeerplaats == None:
-            self.parkeerplaats = parkeerplaatsen.parkeerplaats_reserveren(self.unieke_ID)
+            self.parkeerplaats = parkeerplaats_functies.parkeerplaats_reserveren(self.unieke_ID)
         return
             
     
@@ -62,6 +63,7 @@ class Gebruiker:
         )
 
 # deze is misschien niet nodig
+# dit kan allemaal weg
 class Bezoeker(Gebruiker):
 
     def __init__(self, naam, parkeerplaats =""):
