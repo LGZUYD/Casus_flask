@@ -213,7 +213,17 @@ def bezoeker_uitschrijven_evenement_in_json(evenement_ID, bezoeker_ID):
         json.dump(event_data, event_file, indent=4)
 
 
-# for event in unieke_ID["aanmeldingen"]:    
+def bezoeker_verwijderen_in_json(unieke_code):
+    
+    with open("json/bezoekers.json", "r") as json_file:
+        data = json.load(json_file)
+        
+    with open("json/bezoekers.json", "w") as json_file:
+        del data[unieke_code]
+        json.dump(data, json_file,indent=4)
+                  
+                  
+
 
 def presentator_lijst_uit_json_maken():
 

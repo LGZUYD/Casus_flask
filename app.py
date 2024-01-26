@@ -299,3 +299,25 @@ def parkeerplaatsen():
             return render_template("parkeerplaatsen.html", plaats_gereserveerd=plaats_gereserveerd)
         
     return render_template("parkeerplaatsen.html", plaats_gereserveerd=plaats_gereserveerd)
+
+@app.route("/gebruikers", methods=['GET', 'POST'])
+def gebruikers_beheren():
+    
+    users = alle_gebruikers_informatie_ophalen()
+
+    if request.method == 'POST':
+    
+        gebruiker_ID_om_te_verwijderen = request.form["unieke_ID"]
+        
+        if session["unieke_ID"] == gebruiker_ID_om_te_verwijderen:
+            session.pop("unieke_ID", None)
+            return redirect(url_for("log_uit"))
+            
+        bezoeker_verwijderen_in_json(gebruiker_ID_om_te_verwijderen)
+
+        users = alle_gebruikers_informatie_ophalen()
+        return render_template("gebruikers.html", users=users)
+    
+            
+    return render_template("gebruikers.html", users=users)
+                           

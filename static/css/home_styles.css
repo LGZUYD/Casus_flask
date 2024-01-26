@@ -1,0 +1,21 @@
+.home-info {
+    width: 100%; /* Occupy 100% of the container width */
+    max-width: 400px; /* Set a maximum width for your div */
+    margin: 0 auto; /* Center the div horizontally within the container */
+    background-color: #f0f0f0;
+    padding: 10px;
+    box-sizing: border-box; /* Include padding and border in the total width and height */
+    border-radius: 8px;
+}
+
+.knop{
+    font-family: sans-serif;
+    text-align: center;
+    font-size: larger;
+    background-color: rgb(95, 12, 12);
+    margin:10px;
+    height: 55px;
+    border-radius: 10px;
+    min-width: 200px;
+    color: rgb(251, 251, 251);
+}

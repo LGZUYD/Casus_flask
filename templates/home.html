@@ -5,19 +5,15 @@
     {%block title%}{{account_instance.bevoegdheid}} {{account_instance.naam}}{%endblock%}
     
     {%block content%}
-    <div><!-- deze div misschien fout -->    
-        <div id="name">
-            Naam:
-            {{account_instance.naam}}
-        </div>
+    <div class="home-info">    
+        <div id="name" class="knop"> <h2>Naam</h2></div>
+        <div class="center-div">{{account_instance.naam}}</div>
 
-        <div id="bevoegdheid">
-            Bevoegdheid: {{account_instance.bevoegdheid}}
+        <div id="bevoegdheid" class="knop"> <h2>Bevoegdheid</h2>
         </div>
+        <div class="center-div">{{account_instance.bevoegdheid}}</div>
+            <div id="ID" class="knop"> <h2>ID</h2></div>
 
-        <div>
-            ID:
-            {{account_instance.unieke_ID}}
-        </div>
+        <div class="center-div">{{account_instance.unieke_ID}}</div>
     </div>
     {%endblock%}
