@@ -4,7 +4,7 @@
     {%endblock%}
 
     {%block content%}
-        <form id="evenement_form" method="POST">
+        <form id="evenement_form" onsubmit="return form_validate()" method="POST">
             
             <div>
                 <label for="evenementnaam">Evenementnaam</label>
@@ -57,14 +57,6 @@
             </div>
             {%endif%}
         
-
-            <!-- <div>
-                <label for="presentator">Presentator</label>
-                <div>
-                    <input type="text" value="" name="presentator" placeholder="{{event_info['presentator']}}">
-                </div>
-            </div> -->
-
             <div>
                 <label for="bezoekers_limiet">Bezoekers limiet</label>
                 <div>
@@ -84,5 +76,37 @@
 
         </form>
 
+        <script>
+            function form_validate(){
+
+                let submitButton = document.activeElement;
+                if (submitButton && submitButton.name === "Verwijderen") {
+                    return true;
+                }
+                              
+                let startTijd = document.forms["evenement_form"]["startTijd"].value;
+                let eindTijd = document.forms["evenement_form"]["eindTijd"].value;
+                
+                if (startTijd == eindTijd && startTijd != "" && eindTijd != ""){
+                    alert("Evenement starttijd en eindtijd zijn hetzelfde.")
+                    return false;
+                }
+    
+                if (startTijd.slice(0, 10) == eindTijd.slice(0, 10)){
+                    
+                    let startTijdInt = parseInt(startTijd.slice(-5, -3) + startTijd.slice(-2)) 
+                    let eindTijdInt = parseInt(eindTijd.slice(-5, -3) + eindTijd.slice(-2)) 
+    
+                    if (eindTijdInt < startTijdInt){
+                        alert("Eindtijd kan niet eerder zijn dan begintijd.")
+                        return false;
+                    }
+                }else if(startTijd.slice(0, 10) !== eindTijd.slice(0, 10)){
+                    alert("Starttijd en eindtijd zijn niet op dezelfde dag.")
+                    return false;
+                }
+                
+            }
+            </script>
 
        {%endblock%} 

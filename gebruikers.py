@@ -4,10 +4,10 @@ import parkeerplaats_functies
 
 class Gebruiker:
 
-    def __init__(self, naam, parkeerplaats=None, evenementen=None, bevoegdheid="bezoeker", unieke_code=None):
+    def __init__(self, naam, password, parkeerplaats=None, evenementen=None, bevoegdheid="bezoeker", unieke_code=None):
         
         self.naam = naam
-        # self.password = password
+        self.password = password
         self.parkeerplaats = parkeerplaats
         self.geregistreerde_evenementen = evenementen or []
         self.bevoegdheid = bevoegdheid
@@ -45,6 +45,7 @@ class Gebruiker:
     def info_to_dict(self):
         return {
             'naam':self.naam,
+            'password':self.password,
             'parkeerplaats': self.parkeerplaats,
             'evenementen': self.geregistreerde_evenementen,
             'bevoegdheid': self.bevoegdheid,
@@ -56,6 +57,7 @@ class Gebruiker:
     def info_from_dict(cls, user_data):
         return cls(
             user_data['naam'],
+            user_data['password'],
             user_data['parkeerplaats'],
             user_data['evenementen'],
             user_data['bevoegdheid'],

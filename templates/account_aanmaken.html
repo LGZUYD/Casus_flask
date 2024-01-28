@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/static/css/account_aanmaken.css">
     {% endblock %}
     {%block content%}
-        <form id="login_form" method="POST">
+        <form id="login_form" onsubmit="return form_validate()" method="POST">
             
             <div>
                 <label for="name"><b>Naam</b></label>
@@ -11,14 +11,98 @@
                     <input type="text" value="" name="name" placeholder="Uw naam">
                 </div>
             </div>
-
+            
             <div>
-                <label for="bevoegdheid"><b>Bevoegdheid</b></label>
+                <label for="password"><b>Wachtwoord</b></label>
                 <div>
-                    <input type="text" value="" name="bevoegdheid" placeholder="bezoeker/presentator/beheerder">
+                    <input type="password" value="" class="passwordField" name="password" placeholder="Uw wachtwoord">
+                    <div>
+                        
+                    <input type="password" value="" class="passwordField" name="confirmPassword" placeholder="Bevestig wachtwoord">
+                    </div>
                 </div>
             </div>
 
+            <label>
+                Presentator Account Aanmaken
+                <input type="checkbox" id="toggleCheckbox"> 
+            </label>
+
+            {% if error %}
+            <div>Onjuiste presentator verificatie code ingevoerd.</div>
+            {% endif %}
+
+            <div id="inputContainer" class="hidden">
+                <input type="text" name="verificatie" id="inputField" placeholder="Voer verificatie code in">
+            </div>
+            
+            <!-- <div>
+                <div>
+                    <input type="text" value="" name="bevoegdheid" placeholder="bezoeker/presentator/beheerder">
+                </div>
+            </div> 
+             -->
+<!--             
+            <div>
+                <label for="bevoegdheid"><b>Bevoegdheid</b></label>
+                <select name="bevoegdheid">
+                    <option value="bezoeker">bezoeker</option>
+                    <option value="presentator">presentator</option>
+                    <option value="beheerder">beheerder</option>
+                    
+                </select>
+                </div> -->
+
             <input type="submit" value="Submit">
         </form>
+        <script>
+
+                const toggleCheckbox = document.getElementById('toggleCheckbox');
+                const inputContainer = document.getElementById('inputContainer');
+
+                toggleCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        inputContainer.classList.remove('hidden');
+                    } else {
+                        inputContainer.classList.add('hidden');
+                    }
+                });
+
+            function form_validate(){
+
+                let username = document.forms["login_form"]["name"].value
+
+                if (username.length <= 1){
+                    alert("Geen naam ingevuld.")
+                    return false
+                }
+
+                let password = document.forms["login_form"]["password"].value;
+                let confirmPassword = document.forms["login_form"]["confirmPassword"].value;
+
+                if (password.length <= 1 || confirmPassword.length <= 1){
+                    alert("Wachtwoord niet ingevuld.")
+                    return false
+                }
+
+                if (toggleCheckbox.checked) {
+                console.log("Checkbox is checked");
+                let verificatie_code = document.forms["login_form"]["verificatie"].value;
+                if (verificatie_code.length <= 0) {
+                    alert("Geen verificatie code ingevuld.");
+                    return false;
+                    }
+                }
+
+                if (password == confirmPassword){
+                    return true;
+                }else{
+                    alert("Wachtwoord bevestiging onjuist.");
+                    return false;
+                }
+
+            }
+        </script>
         {%endblock%}
+
+        

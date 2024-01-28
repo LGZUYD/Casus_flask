@@ -8,3 +8,7 @@
     background-color: rgb(235, 229, 222);
     font-size: 20px;
 }
+
+.hidden {
+    display: none;
+}

@@ -72,7 +72,7 @@ def parkeerplaats_verwijderen(parkeerplaats):
         del parkeer_data["secties"][sectie_letter][nummer]
 
         parkeer_data["plaatsen_vrijgekomen_door_annuleren"].append(parkeerplaats)
-
+        
         parkeer_data["totaal_parkeerplaatsen_gereserveerd"] -= 1
 
     with open('json/parkeerplaatsen.json', "w") as json_file:

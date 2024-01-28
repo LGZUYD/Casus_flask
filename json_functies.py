@@ -8,6 +8,12 @@ def alle_gebruikers_informatie_ophalen():
     with open("json/bezoekers.json", "r") as json_file:
         data = json.load(json_file)
         return data
+    
+def bezoekers_registratie_informatie_ophalen():
+     
+     with open("json/identificators.json", "r") as json_file:
+        data = json.load(json_file)
+        return data
 
 def account_aanmaken_in_json(nieuwe_gebruiker):
     
@@ -41,6 +47,17 @@ def account_informatie_wijzigen_in_json(unieke_code, te_wijzigen_data, veranderi
         json.dump(data, json_file, indent=4)
 
 
+def account_password_controle(unieke_ID, ingevoerd_password):
+
+    with open("json/bezoekers.json", "r") as json_file:
+        data = json.load(json_file)
+    
+    if data[unieke_ID]["password"] == ingevoerd_password:
+        return True
+    else:
+        return False
+
+
 def gebruiker_instance_aanmaken_met_json_data(unieke_code):
 
     # gebruikers_data = account_informatie_vinden_in_json(unieke_code)
@@ -50,7 +67,33 @@ def gebruiker_instance_aanmaken_met_json_data(unieke_code):
     
     return Gebruiker.info_from_dict(account_informatie_vinden_in_json(unieke_code))
        
+def presentator_verificatie_code_opslaan_in_json(presentator_code):
+    
+    with open("json/identificators.json", "r") as json_file:
+        data = json.load(json_file)
+        data["presentator_verificatie_code"] = str(presentator_code)       
 
+    with open("json/identificators.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
+
+def huidige_presentator_verificatie_code():
+    
+    with open("json/identificators.json", "r") as json_file:
+        data = json.load(json_file)
+        return data["presentator_verificatie_code"]        
+
+
+def ingevoerde_presentator_code_verifieren(presentator_code):
+    
+    with open("json/identificators.json", "r") as json_file:
+        data = json.load(json_file)
+
+        if presentator_code == data["presentator_verificatie_code"]:
+            return True
+        else:
+            return False
+
+    
 
 def evenement_aanmaken_in_json(nieuw_evenement):
    
@@ -138,12 +181,26 @@ def evenement_verwijderen_in_json(event_ID):
         data = json.load(json_file)
         data.pop(event_ID)
 
-        # hier in de identificators json -1 doen bij evenementen
-
     with open("json/evenementen.json", "w") as json_file:
         json.dump(data, json_file, indent=4)
 
 
+    with open("json/bezoekers.json", "r") as bezoeker_file:
+        bezoeker_data = json.load(bezoeker_file)
+
+        for gebruiker in bezoeker_data:
+            if event_ID in bezoeker_data[gebruiker]["evenementen"]:
+                bezoeker_data[gebruiker]["evenementen"].remove(event_ID)
+
+    with open("json/bezoekers.json", "w") as bezoeker_file:
+        json.dump(bezoeker_data, bezoeker_file, indent=4)
+
+    with open("json/identificators.json", "r") as json_file:
+        data = json.load(json_file)
+        data["evenementen"] -= 1
+
+    with open("json/identificators.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
 
 def evenement_informatie_wijzigen_in_json_data(event_ID, verander_data):
     
@@ -190,7 +247,7 @@ def bezoeker_uitschrijven_evenement_in_json(evenement_ID, bezoeker_ID):
     event_instance = evenement_instance_aanmaken_met_json_data(evenement_ID)
     gebruiker_instance = gebruiker_instance_aanmaken_met_json_data(bezoeker_ID)
 
-    # gebruiker inschrijven in evenement object
+    # gebruiker uitschrijven in evenement object
     event_instance.bezoeker_verwijderen(gebruiker_instance)
     # evenement uitschrijven bij gebruiker object
     gebruiker_instance.uitschrijven_evenement(event_instance)
@@ -221,10 +278,62 @@ def bezoeker_verwijderen_in_json(unieke_code):
     with open("json/bezoekers.json", "w") as json_file:
         del data[unieke_code]
         json.dump(data, json_file,indent=4)
-                  
-                  
+
+    with open("json/identificators.json", "r") as json_file:
+        data = json.load(json_file)
+
+    data["unieke_registraties_totaal"] -= 1
+    
+    if "A" in unieke_code:
+        data["aantal_organisators_registraties"] -= 1
+    elif "P" in unieke_code:
+        data["aantal_presentators_registraties"] -= 1
+    elif "G" in unieke_code:
+        data["aantal_bezoekers_registraties"] -= 1
+
+    with open("json/identificators.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
 
 
+def registratie_aantal_update_bij_bevoegdheid_wijziging(bevoegdheid):
+
+    with open("json/identificators.json", "r") as json_file:
+        data = json.load(json_file)
+
+    data["unieke_registraties_totaal"] -= 1
+
+    if "A" in bevoegdheid:
+        data["aantal_organisators_registraties"] -= 1
+    elif "P" in bevoegdheid:
+        data["aantal_presentators_registraties"] -= 1
+    elif "G" in bevoegdheid:
+        data["aantal_bezoekers_registraties"] -= 1
+        
+    with open("json/identificators.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
+    
+     
+def bezoeker_informatie_wijzigen_in_json_data(bezoeker_ID, verander_data):
+    
+    with open("json/bezoekers.json", "r") as json_file:
+        data = json.load(json_file)
+    
+    nieuwe_unieke_ID = None
+
+    for i in verander_data:
+        
+        data[bezoeker_ID][i] = verander_data[i]
+            
+        if i == "unieke_ID":
+            nieuwe_unieke_ID = verander_data[i]
+
+    if nieuwe_unieke_ID:
+        data[nieuwe_unieke_ID] = data.pop(bezoeker_ID)
+
+    with open("json/bezoekers.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
+    
+                  
 def presentator_lijst_uit_json_maken():
 
     with open("json/bezoekers.json", "r") as json_file:

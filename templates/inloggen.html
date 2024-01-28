@@ -10,9 +10,16 @@
                 <div>
                     <input type="text" value="" name="unieke_code" placeholder="Uw unieke ID">
                 </div>
-           
-            
+                
+                <label for="password" id="unieke_id"><b>Wachtwoord</b></label>
+                <div>
+                    <input type="password" value="" name="password" placeholder="Wachtwoord">
+                </div>
+                {% if error %}
+                <div id="error"><b>Onjuiste gegevens ingevoerd.</b></div>
+                {% endif %}
             <input type="submit" value="Login" class="buttons" id="submit-button">
         </form>
+       
         {%endblock%}
         

@@ -6,14 +6,41 @@
     
     {%block content%}
     <div class="home-info">    
-        <div id="name" class="knop"> <h2>Naam</h2></div>
-        <div class="center-div">{{account_instance.naam}}</div>
 
-        <div id="bevoegdheid" class="knop"> <h2>Bevoegdheid</h2>
+        <div id="name" class="knop"> 
+            <h2>Naam</h2>
         </div>
-        <div class="center-div">{{account_instance.bevoegdheid}}</div>
-            <div id="ID" class="knop"> <h2>ID</h2></div>
 
-        <div class="center-div">{{account_instance.unieke_ID}}</div>
-    </div>
+        <div class="center-div">
+            {{account_instance.naam}}
+        </div>
+
+        <div id="bevoegdheid" class="knop">
+             <h2>Bevoegdheid</h2>
+        </div>
+
+        <div class="center-div">
+            {{account_instance.bevoegdheid}}
+        </div>
+            
+        <div id="ID" class="knop"> 
+            <h2>ID</h2>
+        </div>
+
+            <div class="center-div">
+                {{account_instance.unieke_ID}}
+            </div>
+            
+            {% if account_instance.parkeerplaats %}
+            
+            <div class="knop">
+                <h2>Parkeerplaats</h2>
+            </div>
+
+            <div id="parkeerplaats" >
+                {{account_instance.parkeerplaats}}
+            </div>
+            {% endif %}
+            
+        </div>
     {%endblock%}

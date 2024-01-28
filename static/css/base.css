@@ -9,7 +9,7 @@ html, body{
 #header{
 
     background-image: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fdataintelligence.zuyd.nl%2Fwp-content%2Fuploads%2F2022%2F02%2F20220202ziedit-1280x366.jpg&f=1&nofb=1&ipt=5b249eb40024a6dd12664485b660ceea0cbb3dbc75fe5d542110aca75ff31e16&ipo=images);
-    font-family: sans-serif;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color:antiquewhite;
     width: 100%;
     height: 20%;

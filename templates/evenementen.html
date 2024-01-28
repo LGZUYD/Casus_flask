@@ -3,6 +3,7 @@
             <link rel="stylesheet" href="/static/css/evenementen.css">
         {% endblock %}
 
+
 {%block content%}
 
         {% if bevoegdheid == "beheerder" or bevoegdheid == "presentator" %}
@@ -23,7 +24,9 @@
                 {% endfor %}
             </div>
             <div>Beschrijving: {{eventlist[i]["beschrijving"]}}</div>
-
+            {% if bevoegdheid == "beheerder" or bevoegdheid == "presentator" %}
+            <div>Aanmeldingen / Bezoekers Limiet: {{eventlist[i]["aanmeldingen"]|length}} / {{eventlist[i]["bezoekers_limiet"]}}</div>
+            {% endif %}
             {% if session_gebruiker in eventlist[i]["presentator"] %}
            <div><b> U bent geregistreerd als presentator voor dit evenement. </b></div>
             {% endif %}
@@ -39,6 +42,7 @@
 
 
             {% if bevoegdheid == "beheerder" %}
+            <div>Aangemelde Bezoekers:</div>
             {% for bezoeker in eventlist[i].aanmeldingen %}
             <div>
                 <b>Naam:</b>

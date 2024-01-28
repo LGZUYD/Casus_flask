@@ -2,38 +2,31 @@
     {%block css%}
     <link rel="stylesheet" href="/static/css/gebruikers.css">
     {%endblock%}
-
-    
-    <head>
-        <meta charset="UTF-8">
-        <title>Zoeken op Gebruiker ID</title>
-    </head>
-    <body>
-        <form action="/search" method="get">
-            <label for="gebruiker_ID">Gebruiker ID:</label>
-            <input type="text" id="gebruiker_ID" name="gebruiker_ID" required>
-            <input type="submit" value="Zoeken">
-        </form>
-    </body>
-    </html>
-
-    
     
     {%block content%}
+        <div>
+            <div>Presentator Account Code: {{huidige_presentator_code}}</div>
+        <form method="post">
+            <input type="text" name="presentator_code" value="" placeholder="Kies een presentatorcode">
+            
+            <input type="submit" value="Verzenden" class="buttons" id="submit-button">
+        </form>
+        </div>
+
         <div id="user_container">
            
-
             <ul>
                 {% for user in users %}
                     <li>
                         Naam: {{ users[user]['naam'] }}
-                        Functie: {{ users[user]['bevoegdheid'] }}
-                        Gebruikerscode: {{ users[user]['unieke_ID'] }}
+                        Bevoegdheid: {{ users[user]['bevoegdheid'] }}
+                        Gebruikers ID: {{ users[user]['unieke_ID'] }}
                         <form method="post">
+
                             <input type="hidden" name="unieke_ID" value="{{users[user]['unieke_ID']}}">
 
                             <input type="submit" name="Verwijderen" value="Verwijderen">
-                            
+                            <input type="submit" name="Wijzigen" value="Wijzigen">
                         </form>
 
                         
@@ -41,4 +34,4 @@
                 {% endfor %}
             </ul>
         </div>
-    {%endblock%}
+    {%endblock%}

@@ -14,11 +14,20 @@ def hello_world():
 def aanmeld_submit():
 
     if request.method == 'POST':
-        #
-        nieuwe_gebruiker = Gebruiker(request.form['name'], bevoegdheid=request.form["bevoegdheid"])
+        print(request.form)
+
+        bevoegdheid = "bezoeker"
+
+        if request.form["verificatie"] != "":
+            if ingevoerde_presentator_code_verifieren(request.form["verificatie"]):
+                bevoegdheid = "presentator"
+            else:
+                return render_template("account_aanmaken.html", error=True)
+
+        nieuwe_gebruiker = Gebruiker(request.form['name'], request.form['password'], bevoegdheid=bevoegdheid)
         #
         account_aanmaken_in_json(nieuwe_gebruiker)
-        # dit is misschien dubbel... niet optimaal maar t werkt wel 
+        
         return redirect(url_for("unieke_ID_bevestigen", unieke_ID=nieuwe_gebruiker.unieke_ID))
     
     return render_template("account_aanmaken.html")
@@ -40,16 +49,19 @@ def inlog_submit():
     if request.method == 'POST':
 
         inlog_code = request.form["unieke_code"]
-
-        session["unieke_ID"] = inlog_code
-
-        # hier komen if statements omheen voor error checking dus dit is niet dubbel
-        account_data_unieke_ID = account_informatie_vinden_in_json(inlog_code)["unieke_ID"]
-        #
-
-        # instances van objects als argument meegegeven gaat niet(of iig moeilijk), daarom pas in /home een instance maken met de data
         
-        return redirect(url_for("gebruiker_home", unieke_ID=account_data_unieke_ID))
+        try:
+            account_data = account_informatie_vinden_in_json(inlog_code)
+        except:
+            return render_template("inloggen.html", error=True)
+
+        if account_data["password"] != request.form["password"]:
+
+            return render_template("inloggen.html", error=True)
+        
+        session["unieke_ID"] = inlog_code
+            
+        return redirect(url_for("gebruiker_home", unieke_ID=inlog_code))
     
     else:
 
@@ -64,6 +76,15 @@ def log_uit():
     session.pop("unieke_ID", None)
     return redirect(url_for("hello_world"))
 
+@app.route("/toegang_geweigerd")
+def toegang_geweigerd_functie():
+    if session["unieke_ID"]:
+        return render_template("toegang_geweigerd.html", base=True)
+    else:
+        return render_template("toegang_geweigerd.html", base=False)
+
+
+
 @app.route("/home")
 def gebruiker_home():
     
@@ -77,7 +98,6 @@ def gebruiker_home():
         account_instance = gebruiker_instance_aanmaken_met_json_data(huidige_gebruiker_ID)
         
         return render_template("home.html", account_instance=account_instance)
-     
 
 @app.route('/evenement_aanmaken', methods=['GET', 'POST'])
 def evenement_aanmaken():
@@ -140,8 +160,7 @@ def evenementen_bekijken():
         data = json.load(json_file)
 
     session_gebruiker = session["unieke_ID"]
-    session_acc_bevoegdheid = account_informatie_vinden_in_json(session_gebruiker)["bevoegdheid"]    
-    #evenementen die meegegeven worden aan html
+    session_acc_bevoegdheid = account_informatie_vinden_in_json(session_gebruiker)["bevoegdheid"]
     eventlist = []
 
     for event in data:
@@ -210,14 +229,14 @@ def evenement_wijzigen():
             
             data_om_te_veranderen = {}
 
-            for i in request.form:
-                if request.form[i] != '' and i != "Wijzigen":
+            for data in request.form:
+                if request.form[data] != '' and data != "Wijzigen":
 
-                    if i == "presentator":     
-                        presentator_naam = account_informatie_vinden_in_json(request.form[i])["naam"]
-                        data_om_te_veranderen[i] = {request.form[i] : presentator_naam}
+                    if data == "presentator":     
+                        presentator_naam = account_informatie_vinden_in_json(request.form[data])["naam"]
+                        data_om_te_veranderen[data] = {request.form[data] : presentator_naam}
                     else:
-                        data_om_te_veranderen[i] = request.form[i]
+                        data_om_te_veranderen[data] = request.form[data]
 
             if len(data_om_te_veranderen) == 0:
                 return redirect(url_for("evenementen_bekijken"))
@@ -277,8 +296,6 @@ def parkeerplaatsen():
     else:
         plaats_gereserveerd = False
         
-    print(plaats_gereserveerd)
-
     if request.method == 'POST':
 
         if "Reserveren" in request.form:
@@ -303,21 +320,113 @@ def parkeerplaatsen():
 @app.route("/gebruikers", methods=['GET', 'POST'])
 def gebruikers_beheren():
     
+    if "A" not in session["unieke_ID"]:
+        return render_template("toegang_geweigerd.html")
+
+    huidige_presentator_code = huidige_presentator_verificatie_code()
+
     users = alle_gebruikers_informatie_ophalen()
 
     if request.method == 'POST':
-    
-        gebruiker_ID_om_te_verwijderen = request.form["unieke_ID"]
-        
-        if session["unieke_ID"] == gebruiker_ID_om_te_verwijderen:
-            session.pop("unieke_ID", None)
-            return redirect(url_for("log_uit"))
-            
-        bezoeker_verwijderen_in_json(gebruiker_ID_om_te_verwijderen)
 
-        users = alle_gebruikers_informatie_ophalen()
-        return render_template("gebruikers.html", users=users)
-    
+        if "presentator_code" in request.form:
+
+            presentator_code = request.form["presentator_code"]
+
+            presentator_verificatie_code_opslaan_in_json(presentator_code)
+
+            return render_template("gebruikers.html", users=users, huidige_presentator_code=huidige_presentator_code)
+ 
+        gebruiker_ID_voor_wijzigen = request.form["unieke_ID"]
+        
+        if "Verwijderen" in request.form:
+        
+            if session["unieke_ID"] == gebruiker_ID_voor_wijzigen:
+
+                parkeerplaats_om_te_verwijderen = parkeerplaats_functies.parkeerplaats_vinden_op_unieke_code(gebruiker_ID_voor_wijzigen)
+                parkeerplaats_functies.parkeerplaats_verwijderen(parkeerplaats_om_te_verwijderen)
+                bezoeker_verwijderen_in_json(gebruiker_ID_voor_wijzigen)
+                session.pop("unieke_ID", None)
+                return redirect(url_for("log_uit"))
             
-    return render_template("gebruikers.html", users=users)
+            else:
+
+                parkeerplaats_om_te_verwijderen = parkeerplaats_functies.parkeerplaats_vinden_op_unieke_code(gebruiker_ID_voor_wijzigen)
+                parkeerplaats_functies.parkeerplaats_verwijderen(parkeerplaats_om_te_verwijderen)
+                bezoeker_verwijderen_in_json(gebruiker_ID_voor_wijzigen)
+                users = alle_gebruikers_informatie_ophalen()
+
+                return render_template("gebruikers.html", users=users, huidige_presentator_code=huidige_presentator_code)
+        
+        if "Wijzigen" in request.form:
+
+            return redirect(url_for("gebruiker_wijzigen_functie", gebruiker_ID_voor_wijzigen=gebruiker_ID_voor_wijzigen))
+        
+    return render_template("gebruikers.html", users=users, huidige_presentator_code=huidige_presentator_code)
                            
+@app.route("/gebruiker_wijzigen", methods=["GET", "POST"])
+def gebruiker_wijzigen_functie():
+
+    if "A" not in session["unieke_ID"]:
+        return render_template("toegang_geweigerd.html")
+
+    gebruiker_ID_voor_wijzigen = request.args.get("gebruiker_ID_voor_wijzigen")
+
+    gebruiker_info = account_informatie_vinden_in_json(gebruiker_ID_voor_wijzigen)
+
+    nieuwe_unieke_ID = None
+
+    if request.method == 'POST':
+        
+        data_om_te_veranderen = {}
+        print(request.form)
+        for data in request.form:
+            
+            if request.form[data] != '' and data != "Wijzigen":
+               
+                if data == "parkeerplaats":
+                    parkeerplaats_om_te_verwijderen = parkeerplaats_functies.parkeerplaats_vinden_op_unieke_code(gebruiker_ID_voor_wijzigen)
+                    parkeerplaats_functies.parkeerplaats_verwijderen(parkeerplaats_om_te_verwijderen)
+                    data_om_te_veranderen[data] = None
+
+                elif data == "bevoegdheid":
+
+                    registratie_aantal_update_bij_bevoegdheid_wijziging(gebruiker_ID_voor_wijzigen)
+                    nieuwe_unieke_ID = unieke_identificator_generator.unieke_registratie_code_generator(request.form[data])
+                    data_om_te_veranderen[data] = request.form[data]
+                    data_om_te_veranderen["unieke_ID"] = nieuwe_unieke_ID
+                    
+                else:
+                    data_om_te_veranderen[data] = request.form[data]
+        # als er geen te veranderen data is, wordt gebruiker teruggestuurd naar gebruikers_beheren pagina zonder verandering aan te brengen.
+        if len(data_om_te_veranderen) == 0:
+            return redirect(url_for("gebruikers_beheren"))
+        
+
+        # omdat het veranderen van de bevoegdheid van een gebruiker ook de unieke_ID veranderd, naar een die de bijbehorende letter bevat,
+        # moet dit ook aangepast worden in alle evenementen waar deze gebruiker is ingeschreven.
+        if "bevoegdheid" in data_om_te_veranderen:
+            
+            # eerst wordt er bij de gebruikers oude unieke_ID bij al ingeschreven evenementen verwijderd. 
+            for event_ID in gebruiker_info["evenementen"]:
+                bezoeker_uitschrijven_evenement_in_json(event_ID, gebruiker_ID_voor_wijzigen)
+
+            # daarna kan in json alle doorgegeven te veranderen data van de form worden aangepast in de json.
+            bezoeker_informatie_wijzigen_in_json_data(gebruiker_ID_voor_wijzigen, data_om_te_veranderen)
+
+            # pas daarna kan de gebruiker weer voor alle evenementen opnieuw ingeschreven met zijn nieuwe unieke_ID
+            for event_ID in gebruiker_info["evenementen"]:
+                bezoeker_inschrijven_evenement_in_json(event_ID, nieuwe_unieke_ID)
+        else:
+            # als bevoegdheid niet verandert is, hoeft er geen nieuwe unieke_ID aangemaakt te worden
+            # en kan de te veranderen data meegegeven worden zonder deze aanpassingen.
+            bezoeker_informatie_wijzigen_in_json_data(gebruiker_ID_voor_wijzigen, data_om_te_veranderen)
+
+        # 
+        if gebruiker_ID_voor_wijzigen == session["unieke_ID"] and "bevoegdheid" in data_om_te_veranderen: 
+            return redirect(url_for("unieke_ID_bevestigen", unieke_ID=nieuwe_unieke_ID))
+
+        return redirect(url_for("gebruikers_beheren"))
+    
+    
+    return render_template("gebruiker_wijzigen.html", user_info=gebruiker_info )

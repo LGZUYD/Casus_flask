@@ -1,3 +1,10 @@
 {
-    
+    "A-0": {
+        "naam": "admin",
+        "password": "test",
+        "parkeerplaats": null,
+        "evenementen": [],
+        "bevoegdheid": "beheerder",
+        "unieke_ID": "A-2"
+    }
 }

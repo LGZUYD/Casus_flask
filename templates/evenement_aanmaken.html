@@ -39,8 +39,8 @@
             {% endif %}
             
             {% if not huidige_presentator %}
-            <label for="presentator">Presentator</label>
-                <div>
+            <div>
+                <label for="presentator">Presentator</label>
                     <select name="presentator" id="presentator_select">
                         {% for presentator in presentator_lijst %}
                             {% for unieke_id, name in presentator.items() %}
@@ -50,18 +50,11 @@
                     </select>
                 </div>
             {% endif %}
-            <!-- <div>
-                
-                
-                <div>
-                    <input type="text" value="" name="presentator" placeholder="Presentator">
-                </div>
-            </div> -->
-
+    
             <div>
                 <label for="bezoekers_limiet">Bezoekers limiet</label>
                 <div>
-                    <input type="text" value="" name="bezoekers_limiet" placeholder="Aantal bezoekers limiet">
+                    <input type="number" value="" name="bezoekers_limiet" min="1" placeholder="Aantal bezoekers limiet">
                 </div>
             </div>
 
@@ -79,7 +72,7 @@
     
     <script>
         function form_validate(){
-        
+            
             let evenementnaam = document.forms["evenement_form"]["evenementnaam"].value
             if (evenementnaam === "") {
                 alert("Evenementnaam is niet ingevuld.");
@@ -128,8 +121,8 @@
                 alert("Presentator is niet ingevuld.");
                 return false;
             }
-
-            let bezoekers_limiet = parseInt(document.forms["evenement_form"]["bezoekers_limiet"].value, 10);
+            
+            let bezoekers_limiet = parseInt(document.forms["evenement_form"]["bezoekers_limiet"].value);
             if (bezoekers_limiet === "" || isNaN(bezoekers_limiet) || bezoekers_limiet <= 0) {
                 alert("Bezoekers limiet is niet correct ingevuld.");
                 return false;
@@ -140,8 +133,6 @@
                 alert("Beschrijving is niet ingevuld.");
                 return false;
             }
-
-
         }
-    </script>
-    {%endblock%}
+        </script>
+        {%endblock%}

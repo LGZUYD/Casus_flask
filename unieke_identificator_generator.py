@@ -1,4 +1,5 @@
 import json
+import random
 
 def unieke_registratie_code_generator(bevoegdheid):
 
@@ -49,6 +50,3 @@ def unieke_registratie_code_generator(bevoegdheid):
         json.dump(bestaande_data, json_file, indent=4)
 
     return unieke_gebruikers_bevoegdheid_code
-
-    
-

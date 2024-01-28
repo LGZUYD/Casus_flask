@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+    {% block css%}
+    <link rel="stylesheet" href="/static/css/evenement_wijzigen.css">
+    {%endblock%}
+
+    {%block content%}
+        <form id="gebruiker_form" method="POST">
+            
+            <div>
+                <label for="naam">Gebruikernaam</label>
+                <div>
+                    <input type="text" value="" name="naam" placeholder="{{user_info['naam']}}">
+                </div>
+            </div>
+
+            <div>
+                <label for="password">Wachtwoord</label>
+                <div>
+                    <input type="text" value="" name="password" placeholder="{{user_info['password']}}">
+                </div>
+            </div>
+           
+            
+            <div>
+                <div>
+                    {% if user_info['parkeerplaats'] %}
+                <label for="Parkeerplaats">Parkeerplaats reservering "{{user_info['parkeerplaats']}}" verwijderen</label>
+                    <input type="checkbox" name="parkeerplaats" value="verwijderen">
+                    {% else %}
+                    <div>Geen parkeerplaats reservering.</div>
+                    {% endif %}
+                    
+                </div>
+            </div>
+
+            <div>
+                <label for="bevoegdheid">Bevoegdheid</label>
+                <div>
+                <select name="bevoegdheid">
+                    <option value="" selected disabled>{{user_info["bevoegdheid"]}}</option>
+                    <option value="bezoeker">bezoeker</option>
+                    <option value="presentator">presentator</option>
+                    <option value="beheerder">beheerder</option>
+                    
+                </select>
+                </div>
+            </div>
+
+            {% if error_message %}
+            <div class="error">{{ error_message | safe }}</div>
+            {% endif %}
+            
+            <input type="submit" name="Wijzigen" value="Wijzigen">
+            </form>
+
+       {%endblock%} 
