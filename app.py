@@ -14,8 +14,7 @@ def hello_world():
 def aanmeld_submit():
 
     if request.method == 'POST':
-        print(request.form)
-
+        
         bevoegdheid = "bezoeker"
 
         if request.form["verificatie"] != "":
@@ -167,12 +166,9 @@ def evenementen_bekijken():
         eventlist.append(data[event])
         
     if request.method == 'POST':
-       
+ 
         if "Inschrijven" in request.form:
-
-            # ?
-            session_acc_naam = account_informatie_vinden_in_json(session["unieke_ID"])["naam"]
-            
+        
             event_ID_voor_inschrijven = eventlist[int(request.form["index"])]["event_ID"]
             
             bezoeker_inschrijven_evenement_in_json(event_ID_voor_inschrijven, session_gebruiker)
@@ -201,15 +197,22 @@ def evenementen_bekijken():
             event_ID_voor_wijzigen = eventlist[int(request.form["index"])]["event_ID"]
             
             return redirect(url_for("evenement_wijzigen", event_ID_voor_wijzigen=event_ID_voor_wijzigen))
+        
+        elif "evenement_zoeken" in request.form:
+            
+            zoekterm = request.form["evenement_zoeken"]
+          
+            gevonden_evenementen = evenement_informatie_zoeken_in_json(zoekterm)
+            
+            return render_template("evenementen.html", len=len(gevonden_evenementen), eventlist=gevonden_evenementen, bevoegdheid=session_acc_bevoegdheid, session_gebruiker=session_gebruiker)
+        
+        elif "Aangemelde_Evenement_tonen" in request.form:
 
+            ingeschreven_evenementen = evenementen_ingeschreven_zoeken_in_json(session_gebruiker)
+
+            return render_template("evenementen.html", len=len(ingeschreven_evenementen), eventlist=ingeschreven_evenementen, bevoegdheid=session_acc_bevoegdheid, session_gebruiker=session_gebruiker)
             
     return render_template("evenementen.html", len=len(eventlist), eventlist=eventlist, bevoegdheid=session_acc_bevoegdheid, session_gebruiker=session_gebruiker)
-    # append alleen evenementen waar de gebruiker voor aangemeld is
-    # for event in data:
-    #     if session["unieke_ID"] in event["aanmeldingen"]:
-    #                              # data[event]["aanmelding"] ?
-    #         eventlist.append(data[event])
-    
 
 @app.route("/evenement_wijzigen", methods=['GET', 'POST'])
 def evenement_wijzigen():
@@ -337,28 +340,45 @@ def gebruikers_beheren():
 
             return render_template("gebruikers.html", users=users, huidige_presentator_code=huidige_presentator_code)
  
-        gebruiker_ID_voor_wijzigen = request.form["unieke_ID"]
+        if "gebruiker_zoeken" in request.form:
+            
+            zoekterm = request.form["gebruiker_zoeken"]
+       
+            gevonden_gebruiker_informatie = gebruiker_informatie_zoeken(zoekterm)
+            
+            return render_template("gebruikers.html", users=gevonden_gebruiker_informatie, huidige_presentator_code=huidige_presentator_code)
+    
         
         if "Verwijderen" in request.form:
-        
+            
+            gebruiker_ID_voor_wijzigen = request.form["unieke_ID"]
+
             if session["unieke_ID"] == gebruiker_ID_voor_wijzigen:
 
-                parkeerplaats_om_te_verwijderen = parkeerplaats_functies.parkeerplaats_vinden_op_unieke_code(gebruiker_ID_voor_wijzigen)
-                parkeerplaats_functies.parkeerplaats_verwijderen(parkeerplaats_om_te_verwijderen)
+                if users[gebruiker_ID_voor_wijzigen]["parkeerplaats"]:
+                    
+                    parkeerplaats_om_te_verwijderen = parkeerplaats_functies.parkeerplaats_vinden_op_unieke_code(gebruiker_ID_voor_wijzigen)
+                    parkeerplaats_functies.parkeerplaats_verwijderen(parkeerplaats_om_te_verwijderen)
+
                 bezoeker_verwijderen_in_json(gebruiker_ID_voor_wijzigen)
                 session.pop("unieke_ID", None)
                 return redirect(url_for("log_uit"))
             
             else:
+                
+                if users[gebruiker_ID_voor_wijzigen]["parkeerplaats"]:
 
-                parkeerplaats_om_te_verwijderen = parkeerplaats_functies.parkeerplaats_vinden_op_unieke_code(gebruiker_ID_voor_wijzigen)
-                parkeerplaats_functies.parkeerplaats_verwijderen(parkeerplaats_om_te_verwijderen)
+                    parkeerplaats_om_te_verwijderen = parkeerplaats_functies.parkeerplaats_vinden_op_unieke_code(gebruiker_ID_voor_wijzigen)
+                    parkeerplaats_functies.parkeerplaats_verwijderen(parkeerplaats_om_te_verwijderen)
+
                 bezoeker_verwijderen_in_json(gebruiker_ID_voor_wijzigen)
                 users = alle_gebruikers_informatie_ophalen()
 
                 return render_template("gebruikers.html", users=users, huidige_presentator_code=huidige_presentator_code)
         
         if "Wijzigen" in request.form:
+
+            gebruiker_ID_voor_wijzigen = request.form["unieke_ID"]
 
             return redirect(url_for("gebruiker_wijzigen_functie", gebruiker_ID_voor_wijzigen=gebruiker_ID_voor_wijzigen))
         

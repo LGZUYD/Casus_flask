@@ -24,6 +24,20 @@ def account_aanmaken_in_json(nieuwe_gebruiker):
     with open("json/bezoekers.json", "w") as json_file:
         json.dump(data, json_file, indent=4)
 
+def gebruiker_informatie_zoeken(zoekterm):
+
+    data = alle_gebruikers_informatie_ophalen()
+
+    gevonden_data = {}
+
+    for gebruiker in data:
+        for info in data[gebruiker]:
+            if data[gebruiker][info] is not None and zoekterm in data[gebruiker][info]:
+                gevonden_data[gebruiker] = data[gebruiker]
+                break
+
+    return gevonden_data
+
 
 def account_informatie_vinden_in_json(unieke_code):
 
@@ -212,7 +226,51 @@ def evenement_informatie_wijzigen_in_json_data(event_ID, verander_data):
 
     with open("json/evenementen.json", "w") as json_file:
         json.dump(data, json_file, indent=4)
+        
+def evenement_informatie_zoeken_in_json(zoekterm):
+
+    with open("json/evenementen.json", "r") as json_file:
+        data = json.load(json_file)
     
+    gevonden_evenementen_info = []
+
+    def dict_unpacker_helper(data, zoekterm):
+        for key, value in data.items():
+            if zoekterm in (key, value):
+                return True
+        return False
+
+    for event in data:
+        for info in data[event]:
+
+            if type(data[event][info]) == int:
+                continue
+
+            if isinstance(data[event][info], dict):
+                if dict_unpacker_helper(data[event][info], zoekterm):
+                    gevonden_evenementen_info.append(data[event])
+                    break
+
+            if zoekterm in data[event][info]:
+                gevonden_evenementen_info.append(data[event])
+                break
+
+    return gevonden_evenementen_info                
+            
+
+def evenementen_ingeschreven_zoeken_in_json(unieke_ID):
+    
+    with open("json/evenementen.json", "r") as json_file:
+        data = json.load(json_file)    
+
+    gevonden_events = []
+
+    for event in data:
+        if unieke_ID in data[event]["aanmeldingen"]:
+            gevonden_events.append(data[event])
+
+    return gevonden_events
+
 
 def bezoeker_inschrijven_evenement_in_json(evenement_ID, bezoeker_ID):
 

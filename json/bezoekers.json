@@ -3,8 +3,9 @@
         "naam": "admin",
         "password": "test",
         "parkeerplaats": null,
-        "evenementen": [],
+        "evenementen": [
+        ],
         "bevoegdheid": "beheerder",
-        "unieke_ID": "A-2"
+        "unieke_ID": "A-0"
     }
 }

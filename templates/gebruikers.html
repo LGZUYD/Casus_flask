@@ -4,34 +4,55 @@
     {%endblock%}
     
     {%block content%}
-        <div>
-            <div>Presentator Account Code: {{huidige_presentator_code}}</div>
-        <form method="post">
-            <input type="text" name="presentator_code" value="" placeholder="Kies een presentatorcode">
+        <div id="presentator-code-container">
+            <div class="titel">Presentator Account Code:</div> <div id="presentator-code"><b>{{huidige_presentator_code}}</b></div>
+        <form id="presentator-code-submit" method="post" onsubmit="return form_validate()">
+            <input type="text" name="presentator_code" value="" placeholder="Kies een presentatorcode" >
             
-            <input type="submit" value="Verzenden" class="buttons" id="submit-button">
+            <input type="submit" value="Verzenden" class="button">
         </form>
         </div>
 
-        <div id="user_container">
-           
-            <ul>
+
+        <div id="searchbar">
+            <form method="post">
+                <input type="text" name="gebruiker_zoeken" value="" placeholder="Zoek gebruiker info"> 
+                <input type="submit" value="Zoeken" class="button">
+            </form>
+        </div>   
+
+        <div id="user-container">
+            
                 {% for user in users %}
-                    <li>
-                        Naam: {{ users[user]['naam'] }}
-                        Bevoegdheid: {{ users[user]['bevoegdheid'] }}
-                        Gebruikers ID: {{ users[user]['unieke_ID'] }}
+                    <div class="individual-user">
+
+                        <div class="titel">Naam:</div>
+                        <div> {{ users[user]['naam'] }}</div>
+                        <div class="titel">Bevoegdheid:</div>
+                        <div>{{ users[user]['bevoegdheid'] }}</div>
+                        <div class="titel">Gebruikers ID:</div>
+                        <div> {{ users[user]['unieke_ID'] }}</div>
                         <form method="post">
 
                             <input type="hidden" name="unieke_ID" value="{{users[user]['unieke_ID']}}">
 
-                            <input type="submit" name="Verwijderen" value="Verwijderen">
-                            <input type="submit" name="Wijzigen" value="Wijzigen">
+                            <input class="button" type="submit" name="Verwijderen" value="Verwijderen">
+                            <input class="button" type="submit" name="Wijzigen" value="Wijzigen">
                         </form>
 
                         
-                    </li>
+                    </div>
                 {% endfor %}
-            </ul>
+            
         </div>
+        <script>
+            function form_validate(){
+                let presentator_code = document.forms["presentator-code-submit"]["presentator_code"].value
+
+                if (presentator_code.length == 0){
+                    alert("Geen code ingevoerd.")
+                    return False
+                }
+            }
+        </script>
     {%endblock%}

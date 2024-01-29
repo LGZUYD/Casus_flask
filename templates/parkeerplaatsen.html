@@ -9,11 +9,11 @@
 <div id="parkeerplaats_container">
     <form method="post">
         {% if not plaats_gereserveerd %}
-        <input type="submit" name="Reserveren" value="Parkeerplaats Reserveren">
+        <input class="button" type="submit" name="Reserveren" value="Parkeerplaats Reserveren">
         {% endif %}
 
         {% if plaats_gereserveerd %}
-        <input type="submit" name="Annuleren" value="Reservering Annuleren">
+        <input class="button" type="submit" name="Annuleren" value="Reservering Annuleren">
         {% endif %}
     </form>
 </div>

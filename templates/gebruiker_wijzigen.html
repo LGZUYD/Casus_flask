@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
     {% block css%}
-    <link rel="stylesheet" href="/static/css/evenement_wijzigen.css">
+    <link rel="stylesheet" href="/static/css/gebruikers_wijzigen.css">
     {%endblock%}
 
     {%block content%}
+    <div class="form-container">
         <form id="gebruiker_form" method="POST">
             
             <div>
-                <label for="naam">Gebruikernaam</label>
+                <label for="naam" class="titel">Gebruikernaam</label>
                 <div>
                     <input type="text" value="" name="naam" placeholder="{{user_info['naam']}}">
                 </div>
             </div>
 
             <div>
-                <label for="password">Wachtwoord</label>
+                <label for="password" class="titel">Wachtwoord</label>
                 <div>
                     <input type="text" value="" name="password" placeholder="{{user_info['password']}}">
                 </div>
@@ -24,17 +25,17 @@
             <div>
                 <div>
                     {% if user_info['parkeerplaats'] %}
-                <label for="Parkeerplaats">Parkeerplaats reservering "{{user_info['parkeerplaats']}}" verwijderen</label>
+                <label class="titel" for="Parkeerplaats">Parkeerplaats reservering "{{user_info['parkeerplaats']}}" verwijderen</label>
                     <input type="checkbox" name="parkeerplaats" value="verwijderen">
                     {% else %}
-                    <div>Geen parkeerplaats reservering.</div>
+                    <div  class="titel">Geen parkeerplaats reservering.</div>
                     {% endif %}
                     
                 </div>
             </div>
 
             <div>
-                <label for="bevoegdheid">Bevoegdheid</label>
+                <label for="bevoegdheid"  class="titel">Bevoegdheid</label>
                 <div>
                 <select name="bevoegdheid">
                     <option value="" selected disabled>{{user_info["bevoegdheid"]}}</option>
@@ -52,5 +53,6 @@
             
             <input type="submit" name="Wijzigen" value="Wijzigen">
             </form>
+            </div>
 
        {%endblock%} 

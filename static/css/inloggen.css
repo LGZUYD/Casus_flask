@@ -9,8 +9,8 @@
 #unieke_id{
  
 text-align: center;
-padding-right: 30%;
-padding-left: 30%;
+padding-right: 25%;
+padding-left: 25%;
 margin: 10%;
 border: inset;
 border-radius: 10px;
@@ -21,5 +21,5 @@ border-radius: 10px;
 
 
 #submit-button{
-    margin-top: 50%;
+    margin-top: 10%;
 } 

@@ -6,43 +6,69 @@
 
 {%block content%}
 
+<div id="evenement_aanmaken_div">
         {% if bevoegdheid == "beheerder" or bevoegdheid == "presentator" %}
-        <a href=evenement_aanmaken><button>Evenement Aanmaken</button></a>
+        <a href=evenement_aanmaken><button class="button">Evenement Aanmaken</button></a>
         {% endif %}
+        <form method="post">
+            <input type="text" name="evenement_zoeken" value="" placeholder="Zoek evenement info"> 
+            <input type="submit" value="Zoeken" class="button">
+        </form>
+        
+        <!-- <form id="checkboxForm" action="/submit_checkbox" method="post"> -->
+        <form id="checkboxForm" method="post">
+        <div style="font-size: 1.2rem; width: fit-content; font-weight: 400;">Alleen aangemelde evenementen weergeven<input type="submit" class="button" name="Aangemelde_Evenement_tonen" value="Tonen"> <input type="submit" class="button" name="reset" value="Reset" > </div>
+        </form>
+    </div>
 
         {% for i in range(len)%}
           <div id="event_container">
-        
-            <div>Naam: {{eventlist[i]["evenementnaam"]}}</div>
-            <div>Locatie: {{eventlist[i]["locatie"]}}</div>
-            <div>Datum: {{eventlist[i]["startTijd"][:10]}}</div>
-            <div>Starttijd: {{eventlist[i]["startTijd"][-5:]}}</div>
-            <div>Eindijd: {{eventlist[i]["eindTijd"][-5:]}}</div>
-            <div>Presentator: 
+            
+            
+        <div id="text-container">
+            <div class="titel">Evenement:</div>
+                 <div class="info-text">{{eventlist[i]["evenementnaam"]}}</div>
+            <div class="titel">Locatie:</div>
+                <div class="info-text">{{eventlist[i]["locatie"]}}</div>
+            <div class="titel">Datum:</div>
+                <div class="info-text">{{eventlist[i]["startTijd"][:10]}}</div>
+            <div class="titel">Starttijd:</div>
+                <div class="info-text">{{eventlist[i]["startTijd"][-5:]}}</div>
+            <div class="titel">Eindtijd:</div>
+                <div class="info-text">{{eventlist[i]["eindTijd"][-5:]}}</div>
+            <div class="titel">Presentator:</div>
+            <div class="info-text">
                 {% for value in eventlist[i]["presentator"].values() %}
                 {{ value }}
                 {% endfor %}
             </div>
-            <div>Beschrijving: {{eventlist[i]["beschrijving"]}}</div>
-            {% if bevoegdheid == "beheerder" or bevoegdheid == "presentator" %}
-            <div>Aanmeldingen / Bezoekers Limiet: {{eventlist[i]["aanmeldingen"]|length}} / {{eventlist[i]["bezoekers_limiet"]}}</div>
-            {% endif %}
+            <div class="titel">Beschrijving:</div>
+                <div class="info-text">{{eventlist[i]["beschrijving"]}}</div>
+
             {% if session_gebruiker in eventlist[i]["presentator"] %}
-           <div><b> U bent geregistreerd als presentator voor dit evenement. </b></div>
+            <div class="melding"><b> U bent geregistreerd als presentator voor dit evenement. </b></div>
             {% endif %}
 
             {% if session_gebruiker in eventlist[i].aanmeldingen %}
-            <div><b>U bent voor dit evenement aangemeld.</b></div>
+            <div class="melding"><b>U bent voor dit evenement aangemeld.</b></div>
             {% endif %}
-            
+                 
+
+            {% if bevoegdheid == "beheerder" or bevoegdheid == "presentator" %}
+            <div class="titel" id="aanmeldingen">Aanmeldingen / Bezoekers Limiet:</div>
+                <div class="info-text">{{eventlist[i]["aanmeldingen"]|length}} / {{eventlist[i]["bezoekers_limiet"]}}</div>
+            {% endif %}
+       
             <!-- kunt geen len() gebruiken in flask, ipv kijk hier onder-->
             {%if eventlist[i].aanmeldingen|length == eventlist[i]["bezoekers_limiet"] and session_gebruiker not in eventlist[i].aanmeldingen %}
-            <div><b>U kunt zich niet meer aanmelden voor dit evenement.</b></div>
+            <div class="melding"><b>U kunt zich niet meer aanmelden voor dit evenement.</b></div>
             {%endif%}
 
 
             {% if bevoegdheid == "beheerder" %}
-            <div>Aangemelde Bezoekers:</div>
+            <div class="titel">Event ID:</div>
+            <div> <b>{{eventlist[i]['event_ID']}}</b></div>
+            <div class="titel">Aangemelde Bezoekers:</div>
             {% for bezoeker in eventlist[i].aanmeldingen %}
             <div>
                 <b>Naam:</b>
@@ -52,28 +78,41 @@
                 <form method="post">
                     <input type="hidden" name="unieke_ID" value="{{ bezoeker }}">
                     <input type="hidden" name="event_ID" value="{{ i }}">
-                    <input type="submit" name="Verwijderen" value="Verwijderen">
+                    <input class="button" type="submit" name="Verwijderen" value="Verwijderen">
                 </form>
             </div>
             {%endfor%}
             {% endif %}
-
+            </div>
+        
         
         <form method="post">
             <input type="hidden" name="index" value="{{ i }}">
             {%if eventlist[i].aanmeldingen|length != eventlist[i]["bezoekers_limiet"] and session_gebruiker not in eventlist[i].aanmeldingen and session_gebruiker not in eventlist[i]["presentator"]%} 
-            <input type="submit" name="Inschrijven" value="Inschrijven">
+            <input class="button" type="submit" name="Inschrijven" value="Inschrijven">
             {%endif%}
             {%if session_gebruiker in eventlist[i].aanmeldingen %}
-            <input type="submit" name="Uitschrijven" value="Uitschrijven">
+            <input class="button" type="submit" name="Uitschrijven" value="Uitschrijven">
             {%endif%}
             {% if bevoegdheid == "beheerder" or session_gebruiker in eventlist[i]["presentator"]%}
-            <a href=evenement_wijzigen ><input type="submit" name="Wijzigen" value="Wijzigen"></a>
+            <a href=evenement_wijzigen ><input class="button" type="submit" name="Wijzigen" value="Wijzigen"></a>
             {%endif%}
         </form>
+        
             
     </div>
     {%endfor%}
+    <script>
+
+        // const toggleCheckbox = document.getElementById('checkboxForm');
+        const checkboxForm = document.getElementById('checkboxForm');
+
+        checkboxForm.addEventListener('change', function() {
+            this.submit();
+        });
+
+
+    </script>
     </div>
 {% endblock %}
 

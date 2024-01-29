@@ -4,31 +4,32 @@
     {%endblock%}
 
     {%block content%}
+    <div id="form-container">
         <form id="evenement_form" onsubmit="return form_validate()" method="POST">
             
             <div>
-                <label for="evenementnaam">Evenementnaam</label>
+                <label class="titel" for="evenementnaam">Evenementnaam</label>
                 <div>
                     <input type="text" value="" name="evenementnaam" placeholder="{{event_info['evenementnaam']}}">
                 </div>
             </div>
 
             <div>
-                <label for="locatie">Locatie</label>
+                <label class="titel" for="locatie">Locatie</label>
                 <div>
                     <input type="text" value="" name="locatie" placeholder="{{event_info['locatie']}}">
                 </div>
             </div>
 
             <div>
-                <label for="startTijd">Starttijd</label>
+                <label class="titel" for="startTijd">Starttijd</label>
                 <div>
                     <input type="datetime-local" value="" name="startTijd" placeholder="{{event_info['startTijd']}}">
                 </div>
             </div>
 
             <div>
-                <label for="Eindtijd">Eindtijd</label>
+                <label class="titel" for="Eindtijd">Eindtijd</label>
                 <div>
                     <input type="datetime-local" value="" name="eindTijd" placeholder="{{event_info['eindTijd']}}">
                 </div>
@@ -41,7 +42,7 @@
             
             
             {% if "P" not in session_gebruiker%}
-            <label for="presentator">Presentator</label>
+            <label class="titel" for="presentator">Presentator</label>
             <div>
                 <select name="presentator">
                     {% for unieke_id in event_info['presentator'] %}
@@ -58,23 +59,24 @@
             {%endif%}
         
             <div>
-                <label for="bezoekers_limiet">Bezoekers limiet</label>
+                <label class="titel" for="bezoekers_limiet">Bezoekers limiet</label>
                 <div>
                     <input type="text" value="" name="bezoekers_limiet" placeholder="{{event_info['bezoekers_limiet']}}">
                 </div>
             </div>
 
             <div>
-                <label for="beschrijving">Evenement Beschrijving</label>
+                <label class="titel" for="beschrijving">Evenement Beschrijving</label>
                 <div>
                     <input type="text" value="" name="beschrijving" placeholder="{{event_info['beschrijving']}}">
                 </div>
             </div>
 
-                <input type="submit" name="Wijzigen" value="Wijzigen">
-                <input type="submit" name="Verwijderen" value="Evenement Verwijderen">
+                <input class="button" type="submit" name="Wijzigen" value="Wijzigen">
+                <input class="button" type="submit" name="Verwijderen" value="Evenement Verwijderen">
 
         </form>
+    </div>
 
         <script>
             function form_validate(){

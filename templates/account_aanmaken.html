@@ -3,17 +3,18 @@
     <link rel="stylesheet" href="/static/css/account_aanmaken.css">
     {% endblock %}
     {%block content%}
+    <!-- <div id="form-container"> -->
         <form id="login_form" onsubmit="return form_validate()" method="POST">
             
             <div>
-                <label for="name"><b>Naam</b></label>
+                <label for="name" class="titels"><b>Naam</b></label>
                 <div>
                     <input type="text" value="" name="name" placeholder="Uw naam">
                 </div>
             </div>
             
             <div>
-                <label for="password"><b>Wachtwoord</b></label>
+                <label for="password" class="titels"><b>Wachtwoord</b></label>
                 <div>
                     <input type="password" value="" class="passwordField" name="password" placeholder="Uw wachtwoord">
                     <div>
@@ -23,7 +24,7 @@
                 </div>
             </div>
 
-            <label>
+            <label class="titels">
                 Presentator Account Aanmaken
                 <input type="checkbox" id="toggleCheckbox"> 
             </label>
@@ -53,8 +54,9 @@
                 </select>
                 </div> -->
 
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" class="submit-button">
         </form>
+
         <script>
 
                 const toggleCheckbox = document.getElementById('toggleCheckbox');

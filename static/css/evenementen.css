@@ -1,10 +1,74 @@
 #event_container{
     background-color: azure;
     border-style: groove;
-    margin:auto;
-    padding: 1%;
-    height: fit-content;
+    border-width: 1px;
+    margin:10px;
+    padding: 15px;
     width: 300px;
     border-radius: 25px;
     box-shadow: 2px 2px 5px;
+}
+
+.titel{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+#text-container{
+    background-color: rgb(242, 238, 226);
+    padding: 2%;
+    border: 1px;   
+    border-radius: 2%;
+    border-style: inset;
+}
+
+.info-text{
+margin-left: 10px;
+font-size: 1.2rem;
+margin: 2px;
+background-color: rgb(247, 245, 230);
+}
+
+#aanmeldingen{
+    border-top: inset;
+    border-width:2px;
+    border-color: rgb(191, 230, 237);
+    
+}
+
+.melding{
+    background-color: rgb(224, 240, 255);
+    font-family: sans-serif;
+    padding: 10px;
+    border-style: outset;
+    border-radius: 10px;
+    border-width: 2px;
+}
+
+.button{
+    border: rgb(87, 87, 87) outset;
+    text-align: center;
+    font-size: 15px;
+    border-width: 1px;
+    margin:5px;
+    border-radius: 5px;
+    background-color: rgb(29, 31, 56);
+    color:white;
+    
+}
+
+.button:hover{
+    background-color: rgb(149, 149, 153);
+}
+
+#evenement_aanmaken_div{
+    background-color: antiquewhite;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding-left: 100px ;
+    padding-bottom: 10px ;
+    border-bottom: 2px inset;
+    width: 100%;
+    height:fit-content;
 }

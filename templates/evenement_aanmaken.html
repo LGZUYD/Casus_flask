@@ -4,31 +4,32 @@
     {% endblock %}
 
     {%block content%}
+    <div id="form-container">
         <form id="evenement_form" onsubmit="return form_validate()" method="POST">
             
             <div>
-                <label for="evenementnaam">Evenementnaam</label>
+                <label for="evenementnaam" class="titel">Evenementnaam</label>
                 <div>
                     <input type="text" value="" name="evenementnaam" placeholder="Naam van dit evenement">
                 </div>
             </div>
 
             <div>
-                <label for="locatie">Locatie</label>
+                <label for="locatie" class="titel">Locatie</label>
                 <div>
                     <input type="text" value="" name="locatie" placeholder="Locatie van dit evenement">
                 </div>
             </div>
 
             <div>
-                <label for="startTijd">Starttijd</label>
+                <label for="startTijd" class="titel">Starttijd</label>
                 <div>
                     <input type="datetime-local" value="" name="startTijd" placeholder="Starttijd van dit evenement">
                 </div>
             </div>
 
             <div>
-                <label for="eindTijd">Eindtijd</label>
+                <label for="eindTijd" class="titel">Eindtijd</label>
                 <div>
                     <input type="datetime-local" value="" name="eindTijd" placeholder="Eindtijd van dit evenement">
                 </div>
@@ -40,7 +41,7 @@
             
             {% if not huidige_presentator %}
             <div>
-                <label for="presentator">Presentator</label>
+                <label for="presentator" class="titel">Presentator</label>
                     <select name="presentator" id="presentator_select">
                         {% for presentator in presentator_lijst %}
                             {% for unieke_id, name in presentator.items() %}
@@ -52,20 +53,20 @@
             {% endif %}
     
             <div>
-                <label for="bezoekers_limiet">Bezoekers limiet</label>
+                <label for="bezoekers_limiet" class="titel">Bezoekers limiet</label>
                 <div>
                     <input type="number" value="" name="bezoekers_limiet" min="1" placeholder="Aantal bezoekers limiet">
                 </div>
             </div>
 
             <div>
-                <label for="beschrijving">Beschrijving</label>
+                <label for="beschrijving" class="titel">Beschrijving</label>
                 <div>
                     <input type="text" value="" name="beschrijving" placeholder="Beschrijving van het evenement">
                 </div>
             </div>
 
-                <input type="submit" value="Submit">
+                <input class="button" type="submit" value="Submit">
         </form>
         
     </div>
