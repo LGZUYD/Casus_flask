@@ -10,12 +10,12 @@ def parkeerplaats_reserveren(unieke_code):
     if len(bestaande_data["plaatsen_vrijgekomen_door_annuleren"]):
 
         parkeerplaats = bestaande_data["plaatsen_vrijgekomen_door_annuleren"][-1]
-        print(parkeerplaats)
 
         bestaande_data["plaatsen_vrijgekomen_door_annuleren"].pop()
 
         bestaande_data["secties"][parkeerplaats[0]][parkeerplaats[1:]] = unieke_code
         
+        bestaande_data["totaal_parkeerplaatsen_gereserveerd"] += 1
         with open('json/parkeerplaatsen.json', 'w') as json_file:
             json.dump(bestaande_data, json_file, indent=4)
 

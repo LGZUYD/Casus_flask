@@ -17,8 +17,9 @@
         
         <!-- <form id="checkboxForm" action="/submit_checkbox" method="post"> -->
         <form id="checkboxForm" method="post">
-        <div style="font-size: 1.2rem; width: fit-content; font-weight: 400;">Alleen aangemelde evenementen weergeven<input type="submit" class="button" name="Aangemelde_Evenement_tonen" value="Tonen"> <input type="submit" class="button" name="reset" value="Reset" > </div>
+        <div style="font-size: 1.2rem; width: fit-content; font-weight: bold;">Alleen aangemelde evenementen weergeven<input type="submit" class="button" name="Aangemelde_Evenement_tonen" value="Tonen"> <input type="submit" class="button" name="reset" value="Reset" > </div>
         </form>
+        <div style="font-size: 1.2rem; width: fit-content; font-weight: bold;">Totaal aantal evenementen: {{eventlist|length}}</div>
     </div>
 
         {% for i in range(len)%}

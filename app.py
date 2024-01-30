@@ -326,9 +326,11 @@ def gebruikers_beheren():
     if "A" not in session["unieke_ID"]:
         return render_template("toegang_geweigerd.html")
 
-    huidige_presentator_code = huidige_presentator_verificatie_code()
+    
+    identificator_informatie = identificator_informatie_ophalen()
 
     users = alle_gebruikers_informatie_ophalen()
+
 
     if request.method == 'POST':
 
@@ -338,15 +340,17 @@ def gebruikers_beheren():
 
             presentator_verificatie_code_opslaan_in_json(presentator_code)
 
-            return render_template("gebruikers.html", users=users, huidige_presentator_code=huidige_presentator_code)
+            identificator_informatie = identificator_informatie_ophalen()
+
+            return render_template("gebruikers.html", users=users, identificator_informatie=identificator_informatie)
  
         if "gebruiker_zoeken" in request.form:
             
             zoekterm = request.form["gebruiker_zoeken"]
        
             gevonden_gebruiker_informatie = gebruiker_informatie_zoeken(zoekterm)
-            
-            return render_template("gebruikers.html", users=gevonden_gebruiker_informatie, huidige_presentator_code=huidige_presentator_code)
+
+            return render_template("gebruikers.html", users=gevonden_gebruiker_informatie, identificator_informatie=identificator_informatie)
     
         
         if "Verwijderen" in request.form:
@@ -373,8 +377,9 @@ def gebruikers_beheren():
 
                 bezoeker_verwijderen_in_json(gebruiker_ID_voor_wijzigen)
                 users = alle_gebruikers_informatie_ophalen()
+                identificator_informatie = identificator_informatie_ophalen()
 
-                return render_template("gebruikers.html", users=users, huidige_presentator_code=huidige_presentator_code)
+                return render_template("gebruikers.html", users=users, identificator_informatie=identificator_informatie)
         
         if "Wijzigen" in request.form:
 
@@ -382,7 +387,7 @@ def gebruikers_beheren():
 
             return redirect(url_for("gebruiker_wijzigen_functie", gebruiker_ID_voor_wijzigen=gebruiker_ID_voor_wijzigen))
         
-    return render_template("gebruikers.html", users=users, huidige_presentator_code=huidige_presentator_code)
+    return render_template("gebruikers.html", users=users, identificator_informatie=identificator_informatie)
                            
 @app.route("/gebruiker_wijzigen", methods=["GET", "POST"])
 def gebruiker_wijzigen_functie():

@@ -5,12 +5,19 @@
     
     {%block content%}
         <div id="presentator-code-container">
-            <div class="titel">Presentator Account Code:</div> <div id="presentator-code"><b>{{huidige_presentator_code}}</b></div>
+            <div class="titel">Presentator Account Code:</div> <div id="presentator-code"><b>{{identificator_informatie["presentator_verificatie_code"]}}</b></div>
         <form id="presentator-code-submit" method="post" onsubmit="return form_validate()">
             <input type="text" name="presentator_code" value="" placeholder="Kies een presentatorcode" >
             
             <input type="submit" value="Verzenden" class="button">
         </form>
+        </div>
+
+        <div id="identificator_informatie">
+            <div class="test"><p class="text-left">Totaal aantal registraties: </p><p class="text-right">{{identificator_informatie["unieke_registraties_totaal"]}}</p></div>
+            <div class="test"><p class="text-left">Totaal aantal bezoekers: </p> <p class="text-right">{{identificator_informatie["aantal_bezoekers_registraties"]}}</p></div>
+            <div class="test"><p class="text-left">Totaal aantal presentatoren: </p><p class="text-right">{{identificator_informatie["aantal_presentators_registraties"]}}</p></div>
+            <div class="test"><p class="text-left">Totaal aantal beheerders: </p> <p class="text-right">{{identificator_informatie["aantal_organisators_registraties"]}}</p></div>
         </div>
 
 

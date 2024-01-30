@@ -109,6 +109,13 @@ def ingevoerde_presentator_code_verifieren(presentator_code):
 
     
 
+def identificator_informatie_ophalen():
+
+    with open('json/identificators.json', 'r') as json_file:
+        data = json.load(json_file)
+
+    return data
+
 def evenement_aanmaken_in_json(nieuw_evenement):
    
     with open("json/identificators.json", "r") as json_file:
