@@ -4,6 +4,8 @@
 **python 3.10+**<br/>
 **pytest**
 
+## Installeren
+
 1. Open de geleverde project map in vscode of text editor met voorkeur
 
 2. Open in vscode 
