@@ -1,6 +1,6 @@
 # Casus Flask Install
 
-# Vereisten
+## Vereisten
 **python 3.10+**<br/>
 **pytest**
 
@@ -37,19 +37,19 @@ flask run
 
 7.	Bij het eerste gebruik van de applicatie zijn er voorbeeldaccounts geleverd voor elke gebruikersrol:
 
-Beheerder account:<br/>
-Inlogcode : **A-0**<br/>
-Wachtwoord: **test**<br/>
-    
-Presentator account:<br/>
-Inlogcode: **P-0**<br/>
-Wachtwoord: **test**<br/>
+    Beheerder account:<br/>
+    Inlogcode : **A-0**<br/>
+    Wachtwoord: **test**<br/>
+        
+    Presentator account:<br/>
+    Inlogcode: **P-0**<br/>
+    Wachtwoord: **test**<br/>
 
-Bezoekers account:<br/>
-Inlogcode: **G-0**<br/>
-Wachtwoord: **test**<br/>
+    Bezoekers account:<br/>
+    Inlogcode: **G-0**<br/>
+    Wachtwoord: **test**<br/>
     
-    Deze gebruikers kunnen veilig worden verwijderd of gewijzigd in het Bezoekers-scherm
+Deze gebruikers kunnen veilig worden verwijderd of gewijzigd in het Bezoekers-scherm
 
 8. Om de geleverde unittests uit te voeren, wordt gebruik gemaakt van 'pytest'
 Let op: Bij het uitvoeren van de unittests worden de ingebouwde functies gebruikt voor het bewerken van de JSON-gegevens met betrekking tot gebruikersregistratie. Als de unittests worden uitgevoerd, worden de gegevens in "identificators.json" bijgewerkt en komen ze niet meer overeen met de werkelijke geregistreerde gebruikers data en moeten ze handmatig worden teruggezet naar hun oorspronkelijke waarden.
