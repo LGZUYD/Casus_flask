@@ -1,7 +1,7 @@
 # Casus Flask Install
 
 # Vereisten
-**python 3.10+**
+**python 3.10+**<br/>
 **pytest**
 
 1. Open de geleverde project map in vscode of text editor met voorkeur
@@ -37,17 +37,17 @@ flask run
 
 7.	Bij het eerste gebruik van de applicatie zijn er voorbeeldaccounts geleverd voor elke gebruikersrol:
 
-Beheerder account:
-Inlogcode : **A-0**
-Wachtwoord: **test**
+Beheerder account:<br/>
+Inlogcode : **A-0**<br/>
+Wachtwoord: **test**<br/>
     
-Presentator account:
-Inlogcode: **P-0**
-Wachtwoord: **test**
+Presentator account:<br/>
+Inlogcode: **P-0**<br/>
+Wachtwoord: **test**<br/>
 
-Bezoekers account:
-Inlogcode: **G-0**
-Wachtwoord: **test**
+Bezoekers account:<br/>
+Inlogcode: **G-0**<br/>
+Wachtwoord: **test**<br/>
     
     Deze gebruikers kunnen veilig worden verwijderd of gewijzigd in het Bezoekers-scherm
 
