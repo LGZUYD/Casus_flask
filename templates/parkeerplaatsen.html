@@ -8,11 +8,16 @@
 
 <div id="parkeerplaats_container">
     <form method="post">
-        {% if not plaats_gereserveerd %}
+        {% if not plaats_gereserveerd and not reservering_limiet %}
         <input class="button" type="submit" name="Reserveren" value="Parkeerplaats Reserveren">
         {% endif %}
 
+        {%if reservering_limiet %}
+        <div class="info-text">Het is niet meer mogelijk om een parkeerplaats te reserveren.</div>
+        {% endif %}
+        
         {% if plaats_gereserveerd %}
+        <div class="info-text">Uw parkeerplaats is gereserveerd, U kunt deze vinden op de Home pagina.</div>
         <input class="button" type="submit" name="Annuleren" value="Reservering Annuleren">
         {% endif %}
     </form>

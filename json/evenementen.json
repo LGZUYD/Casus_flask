@@ -1,3 +1,60 @@
 {
-    
+    "E-0": {
+        "evenementnaam": "TestEvenement1",
+        "locatie": "TestLocatie1",
+        "startTijd": "2024-01-01T12:00",
+        "eindTijd": "2024-01-01T13:00",
+        "presentator": {
+            "P-0": "PRESENTATOR"
+        },
+        "bezoekers_limiet": 10,
+        "event_ID": "E-0",
+        "aanmeldingen": {
+            "A-0": "ADMIN",
+            "G-0": "BEZOEKER"
+        },
+        "beschrijving": "TestBeschrijving1"
+    },
+    "E-1": {
+        "evenementnaam": "TestEvenement2",
+        "locatie": "TestLocatie2",
+        "startTijd": "2024-01-01T11:00",
+        "eindTijd": "2024-01-01T12:00",
+        "presentator": {
+            "P-0": "PRESENTATOR"
+        },
+        "bezoekers_limiet": 20,
+        "event_ID": "E-1",
+        "aanmeldingen": {
+            "G-0": "BEZOEKER",
+            "A-0": "ADMIN"
+        },
+        "beschrijving": "TestBeschrijving2"
+    },
+    "E-2": {
+        "evenementnaam": "TestEvenement3",
+        "locatie": "TestLocatie3",
+        "startTijd": "2024-01-01T13:00",
+        "eindTijd": "2024-01-01T14:00",
+        "presentator": {
+            "P-0": "PRESENTATOR"
+        },
+        "bezoekers_limiet": 30,
+        "event_ID": "E-2",
+        "aanmeldingen": {},
+        "beschrijving": "TestBeschrijving3"
+    },
+    "E-3": {
+        "evenementnaam": "TestPresentatorEvent1",
+        "locatie": "TestPresentatorEvent1",
+        "startTijd": "2024-01-01T15:00",
+        "eindTijd": "2024-01-01T16:00",
+        "presentator": {
+            "P-0": "PRESENTATOR"
+        },
+        "bezoekers_limiet": 40,
+        "event_ID": "E-3",
+        "aanmeldingen": {},
+        "beschrijving": "TestBeschrijvingPresentator"
+    }
 }

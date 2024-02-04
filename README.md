@@ -1,6 +1,11 @@
 # Casus Flask Install
 
-1. Clone deze repository
+# Vereisten
+**python 3.10+ 
+pytest
+**
+
+1. Open de geleverde project map in vscode of text editor met voorkeur
 
 2. Open in vscode 
 
@@ -22,12 +27,28 @@ python3 -m venv .venv
 
 5. Om de applicatie te runnen type dit in terminal:
 ``` bash
-flask run --debug
+flask run
 ```
-(--debug) zorgt ervoor dat je Flask niet iedere keer opnieuw hoeft op te starten als je veranderingen maakt in code
 
-6. In terminal staat nu iets als volgende, open deze in browser [ CTRL + Click ] :
+6. In terminal staat nu het volgende, open deze in browser **[ CTRL + Click ]** :
 
 > * Running on http://127.0.0.1:5000
 
- CTRL + C in terminal om Flask af te sluiten voor bv. hard resets
+ CTRL + C in terminal om Flask af te sluiten
+
+7.	Bij het eerste gebruik van de applicatie zijn er voorbeeldaccounts geleverd voor elke gebruikersrol:
+
+    Beheerder account:
+        Inlogcode : **A-0**
+        Wachtwoord: **test**
+	Presentator account:
+		Inlogcode: **P-0**
+		Wachtwoord: **test**
+	Bezoekers account:
+		Inlogcode: **G-0**
+		Wachtwoord: **test**
+    
+    Deze gebruikers kunnen veilig worden verwijderd of gewijzigd in het Bezoekers-scherm
+
+8. Om de geleverde unittests uit te voeren, wordt gebruik gemaakt van 'pytest'
+Let op: Bij het uitvoeren van de unittests worden de ingebouwde functies gebruikt voor het bewerken van de JSON-gegevens met betrekking tot gebruikersregistratie. Als de unittests worden uitgevoerd, worden de gegevens in "identificators.json" bijgewerkt en komen ze niet meer overeen met de werkelijke geregistreerde gebruikers data en moeten ze handmatig worden teruggezet naar hun oorspronkelijke waarden.

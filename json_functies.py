@@ -2,6 +2,7 @@ from gebruikers import *
 from evenementen import *
 import json
 
+# alle functies die te maken hebben met het ophalen, aanmaken, wijzigen en verwijderen van data in de json files
 
 def alle_gebruikers_informatie_ophalen():
 
@@ -16,9 +17,10 @@ def bezoekers_registratie_informatie_ophalen():
         return data
 
 def account_aanmaken_in_json(nieuwe_gebruiker):
-    
+    # de nieuwe gebruiker wordt toegevoegd aan de json file    
     with open("json/bezoekers.json", "r") as json_file:
-        data = json.load(json_file)    
+        data = json.load(json_file)
+        # de unieke ID van de gebruiker wordt gebruikt als key in de dictionary van de json file    
         data[nieuwe_gebruiker.unieke_ID] = nieuwe_gebruiker.info_to_dict()
                 
     with open("json/bezoekers.json", "w") as json_file:
@@ -30,6 +32,10 @@ def gebruiker_informatie_zoeken(zoekterm):
 
     gevonden_data = {}
 
+    # deze loop zoekt door alle mogelijke data van de gebruikers
+    # en vergelijkt deze met de zoekterm, als de zoekterm gevonden wordt
+    # wordt de data van de gebruiker toegevoegd aan de gevonden_data dictionary
+    # hierdoor wordt uiteindelijk door de pagina alleen de gebruikers met relevante data getoond
     for gebruiker in data:
         for info in data[gebruiker]:
             if data[gebruiker][info] is not None and zoekterm in data[gebruiker][info]:
@@ -40,22 +46,21 @@ def gebruiker_informatie_zoeken(zoekterm):
 
 
 def account_informatie_vinden_in_json(unieke_code):
-
+# de informatie van de gebruiker wordt gevonden in de json file met de unieke code als key en returned
     with open("json/bezoekers.json", "r") as json_file:
         data = json.load(json_file)
         
         return data[unieke_code]
         
 def account_informatie_wijzigen_in_json(unieke_code, te_wijzigen_data, verandering):
-      
+
     with open("json/bezoekers.json", "r") as json_file:
         data = json.load(json_file)
-        
+
         try:
             data[unieke_code][te_wijzigen_data] = verandering
         except KeyError:
-            print("Geen beschikbare data meegegeven als tweede argument voor 'account_informatie_wijzigen_in_json")
-            return
+            return("Geen beschikbare data meegegeven als tweede argument voor 'account_informatie_wijzigen_in_json")
               
     with open("json/bezoekers.json", "w") as json_file:
         json.dump(data, json_file, indent=4)
@@ -65,7 +70,7 @@ def account_password_controle(unieke_ID, ingevoerd_password):
 
     with open("json/bezoekers.json", "r") as json_file:
         data = json.load(json_file)
-    
+    # de ingevoerde password wordt vergeleken met het password van de gebruiker in de json file
     if data[unieke_ID]["password"] == ingevoerd_password:
         return True
     else:
@@ -73,16 +78,15 @@ def account_password_controle(unieke_ID, ingevoerd_password):
 
 
 def gebruiker_instance_aanmaken_met_json_data(unieke_code):
-
-    # gebruikers_data = account_informatie_vinden_in_json(unieke_code)
-    # gebruikers_instance = Gebruiker.info_from_dict(gebruikers_data)
-    # return gebruikers_instance
-    # hieronder doet het zelfde maar korter / minder leesbaar lol
+    # een nieuwe instance van een gebruiker class wordt aangemaakt met de informatie uit de json file en gereturned
+    # dit maakt het mogelijk om de data van de gebruiker te gebruiken in de applicatie
+    gebruikers_data = account_informatie_vinden_in_json(unieke_code)
+    gebruikers_instance = Gebruiker.info_from_dict(gebruikers_data)
+    return gebruikers_instance
     
-    return Gebruiker.info_from_dict(account_informatie_vinden_in_json(unieke_code))
        
 def presentator_verificatie_code_opslaan_in_json(presentator_code):
-    
+    # de presentator verificatie code wordt opgeslagen in de json file
     with open("json/identificators.json", "r") as json_file:
         data = json.load(json_file)
         data["presentator_verificatie_code"] = str(presentator_code)       
@@ -91,14 +95,14 @@ def presentator_verificatie_code_opslaan_in_json(presentator_code):
         json.dump(data, json_file, indent=4)
 
 def huidige_presentator_verificatie_code():
-    
+    # de huidige presentator verificatie code wordt opgehaald uit de json file
     with open("json/identificators.json", "r") as json_file:
         data = json.load(json_file)
         return data["presentator_verificatie_code"]        
 
 
 def ingevoerde_presentator_code_verifieren(presentator_code):
-    
+    # de ingevoerde presentator code wordt vergeleken met de huidige presentator code
     with open("json/identificators.json", "r") as json_file:
         data = json.load(json_file)
 
@@ -107,10 +111,8 @@ def ingevoerde_presentator_code_verifieren(presentator_code):
         else:
             return False
 
-    
-
 def identificator_informatie_ophalen():
-
+    # de identificator informatie wordt opgehaald uit de json file
     with open('json/identificators.json', 'r') as json_file:
         data = json.load(json_file)
 
@@ -142,7 +144,11 @@ def evenement_aanmaken_in_json(nieuw_evenement):
 
 
 def tijd_code_converten(tijd_code):
-
+        
+    # deze functie splitst de tijd code string die door HTML gestuurd wordt op en om naar een dictionary.
+    # dit maakt het ook mogelijk om de functie aan te roepen en alleen bepaalde delen van de tijd code te gebruiken;
+    # door bijvoorbeeld "tijd_code_converten(tijd_code)['uur']" te gebruiken.
+    # de structuur van een html tijd code is "YYYY-MM-DDTHH:MM" / "2023-12-31T23:59"
         return{
         'jaar': int(tijd_code[0:4]),
         'maand': int(tijd_code[5:7]),
@@ -153,19 +159,20 @@ def tijd_code_converten(tijd_code):
 
 
 def evenementen_overlapping_controle(te_controleren_starttijd, te_controleren_eindtijd, te_controleren_locatie):
-    
+    # de te controleren starttijd en eindtijd worden omgezet naar een dictionary met tijd code_converten()
     start_tijd = tijd_code_converten(te_controleren_starttijd)
     eind_tijd = tijd_code_converten(te_controleren_eindtijd)
 
     with open("json/evenementen.json", "r") as json_file:
         data = json.load(json_file)
-
+    
+    # de loop controleert iedere eventenement in de json file op overlapping
     for event in data:
 
         event_locatie = data[event]["locatie"]
-
+        # als de te controleeren locatie overeenkomt met de locatie van het event, wordt de tijd gecontroleerd
         if event_locatie == te_controleren_locatie:
-            
+            # de start en eind tijd van het evenement dat overeenkomt met het te controleren evenement worden omgezet naar een dictionary met tijd_code_converten()
             event_start_tijd = tijd_code_converten(data[event]['startTijd'])
             event_eind_tijd = tijd_code_converten(data[event]['eindTijd'])
             
@@ -180,6 +187,15 @@ def evenementen_overlapping_controle(te_controleren_starttijd, te_controleren_ei
                 event_start_tijd['minuten'] <= eind_tijd['minuten']))):
                 
                 return [event, event_locatie, event_start_tijd, event_eind_tijd]
+            # dit controleert op een aantal voorwaarden:
+            # - het jaar, maand en dag van het te controleren evenement zijn hetzelfde als het event uit de json file
+            # - de starttijd van het te controleren evenement is eerder dan de eindtijd van het event uit de json file
+            # - de eindtijd van het te controleren evenement is later dan de starttijd van het event uit de json file
+            #
+            # als aan deze voorwaarden voldaan wordt, is er een overlapping
+            # de functie stopt en er wordt een lijst met informatie over het overlappende evenement teruggegeven
+            # zodat deze getoond kan worden op de pagina
+            # als de functie het gehele bestand heeft doorlopen en geen overlapping heeft gevonden, wordt er "False" teruggegeven, om aan te geven dat er geen overlapping is
 
     return False
     
@@ -193,8 +209,12 @@ def evenement_informatie_vinden_in_json(event_ID):
         
 
 def evenement_instance_aanmaken_met_json_data(event_ID):
-    # hetzelfde als bij gebruiker_instance_aanmaken_met_json_data(), daar uitgelegd
-    return Evenement.info_from_dict(evenement_informatie_vinden_in_json(event_ID))
+    # een nieuwe instance van een evenement class wordt aangemaakt met de informatie uit de json file en gereturned
+    evenement_informatie = evenement_informatie_vinden_in_json(event_ID)
+    nieuw_evenement = Evenement.info_from_dict(evenement_informatie)
+    return nieuw_evenement
+
+    
 
 def evenement_verwijderen_in_json(event_ID):
 
@@ -208,7 +228,8 @@ def evenement_verwijderen_in_json(event_ID):
 
     with open("json/bezoekers.json", "r") as bezoeker_file:
         bezoeker_data = json.load(bezoeker_file)
-
+        # de loop controleert iedere gebruiker in de bezoekers.json file
+        # als de gebruiker is ingeschreven voor het te verwijderen evenement, wordt deze uit de lijst van evenementen van de gebruiker verwijderd
         for gebruiker in bezoeker_data:
             if event_ID in bezoeker_data[gebruiker]["evenementen"]:
                 bezoeker_data[gebruiker]["evenementen"].remove(event_ID)
@@ -227,6 +248,11 @@ def evenement_informatie_wijzigen_in_json_data(event_ID, verander_data):
     
     with open("json/evenementen.json", "r") as json_file:
         data = json.load(json_file)
+    
+    # de loop controleert iedere key in de dictionary die wordt meegegeven
+    # als de key overeenkomt met een key in de json file, wordt de data van het evenement aangepast
+    # de keys in de dictionary die wordt meegegeven komen altijd oveern met de keys in de json file
+    # dit vereenvoudigt het aanpassen van de data
         
     for i in verander_data:
         data[event_ID][i] = verander_data[i]
@@ -241,24 +267,29 @@ def evenement_informatie_zoeken_in_json(zoekterm):
     
     gevonden_evenementen_info = []
 
+    # deze functie is een helper functie, die later in de functie gebruikt wordt om door een dictionary te zoeken
+    # deze functie wordt alleen binnen de hoofdfunctie gebruikt, en is niet bedoeld om daar buiten te worden aangeroepen
     def dict_unpacker_helper(data, zoekterm):
         for key, value in data.items():
             if zoekterm in (key, value):
                 return True
         return False
 
+    # deze loop zoekt door alle mogelijke data van de evenementen
     for event in data:
         for info in data[event]:
-
+            # als de data een integer is, wordt deze overgeslagen
             if type(data[event][info]) == int:
                 continue
-
+            # als de data een dictionary is, wordt de helper functie gebruikt om door de dictionary te zoeken
             if isinstance(data[event][info], dict):
                 if dict_unpacker_helper(data[event][info], zoekterm):
+                # als de helper functie True teruggeeft, wordt de data van het evenement toegevoegd aan de gevonden_evenementen_info lijst
                     gevonden_evenementen_info.append(data[event])
                     break
 
             if zoekterm in data[event][info]:
+            # als de zoekterm in de data van het evenement gevonden wordt, wordt de data van het evenement toegevoegd aan de gevonden_evenementen_info lijst
                 gevonden_evenementen_info.append(data[event])
                 break
 
@@ -271,7 +302,8 @@ def evenementen_ingeschreven_zoeken_in_json(unieke_ID):
         data = json.load(json_file)    
 
     gevonden_events = []
-
+    # deze loop zoekt door alle evenementen in de json file
+    # als de unieke ID van de gebruiker in de lijst van aanmeldingen van het evenement staat, wordt het evenement toegevoegd aan de gevonden_events lijst
     for event in data:
         if unieke_ID in data[event]["aanmeldingen"]:
             gevonden_events.append(data[event])
@@ -280,7 +312,7 @@ def evenementen_ingeschreven_zoeken_in_json(unieke_ID):
 
 
 def bezoeker_inschrijven_evenement_in_json(evenement_ID, bezoeker_ID):
-
+    # de functie maakt een instance van de evenement en gebruiker class aan met de meegegeven ID's
     event_instance = evenement_instance_aanmaken_met_json_data(evenement_ID)
     gebruiker_instance = gebruiker_instance_aanmaken_met_json_data(bezoeker_ID)
 
@@ -308,7 +340,7 @@ def bezoeker_inschrijven_evenement_in_json(evenement_ID, bezoeker_ID):
 
 
 def bezoeker_uitschrijven_evenement_in_json(evenement_ID, bezoeker_ID):
-
+    # de functie maakt een instance van de evenement en gebruiker class aan met de meegegeven ID's
     event_instance = evenement_instance_aanmaken_met_json_data(evenement_ID)
     gebruiker_instance = gebruiker_instance_aanmaken_met_json_data(bezoeker_ID)
 
@@ -347,8 +379,9 @@ def bezoeker_verwijderen_in_json(unieke_code):
     with open("json/identificators.json", "r") as json_file:
         data = json.load(json_file)
 
+    # als de bezoeker wordt uitgeschreven, wordt het aantal registraties in de identificators.json file aangepast
     data["unieke_registraties_totaal"] -= 1
-    
+    # de bevoegdheid van de gebruiker wordt gebruikt om het aantal registraties van de juiste bevoegdheid aan te passen
     if "A" in unieke_code:
         data["aantal_organisators_registraties"] -= 1
     elif "P" in unieke_code:
@@ -361,12 +394,14 @@ def bezoeker_verwijderen_in_json(unieke_code):
 
 
 def registratie_aantal_update_bij_bevoegdheid_wijziging(bevoegdheid):
+    # als de bezoeker wordt uitgeschreven, wordt het aantal registraties in de identificators.json file aangepast
 
     with open("json/identificators.json", "r") as json_file:
         data = json.load(json_file)
-
+    
     data["unieke_registraties_totaal"] -= 1
 
+    # de bevoegdheid van de gebruiker wordt gebruikt om het aantal registraties van de juiste bevoegdheid aan te passen
     if "A" in bevoegdheid:
         data["aantal_organisators_registraties"] -= 1
     elif "P" in bevoegdheid:
@@ -383,15 +418,19 @@ def bezoeker_informatie_wijzigen_in_json_data(bezoeker_ID, verander_data):
     with open("json/bezoekers.json", "r") as json_file:
         data = json.load(json_file)
     
+    # een nieuwe_unieke_ID variabele wordt aangemaakt, die wordt gebruikt om de key van de dictionary van de gebruiker te veranderen
+    # deze wordt eerst op None gezet, zodat de key van de dictionary van de gebruiker niet veranderd wordt als de gebruiker zijn bevoegdheid niet verandert
     nieuwe_unieke_ID = None
 
+    # de loop controleert iedere key in de dictionary die wordt meegegeven
     for i in verander_data:
-        
+        # als de key overeenkomt met een key in de json file, wordt de data van de gebruiker aangepast
         data[bezoeker_ID][i] = verander_data[i]
             
         if i == "unieke_ID":
             nieuwe_unieke_ID = verander_data[i]
-
+    # dit zorgt ervoor dat de key van de dictionary van de gebruiker hetzelfde als de de nieuwe "unieke_ID" is,
+    # wanneer de gebruiker zijn bevoegdheid verandert
     if nieuwe_unieke_ID:
         data[nieuwe_unieke_ID] = data.pop(bezoeker_ID)
 
@@ -405,7 +444,8 @@ def presentator_lijst_uit_json_maken():
         data = json.load(json_file)
         
         presentator_lijst = []
-
+        # de loop controleert iedere gebruiker in de json file
+        # als de gebruiker een presentator is, wordt deze toegevoegd aan de presentator_lijst
         for bezoeker in data:
             if data[bezoeker]["bevoegdheid"] == 'presentator':
                 presentator_lijst.append( { bezoeker:data[bezoeker]["naam"] } )

@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/static/css/account_aanmaken.css">
     {% endblock %}
     {%block content%}
-    <!-- <div id="form-container"> -->
+ 
         <form id="login_form" onsubmit="return form_validate()" method="POST">
             
             <div>
@@ -36,23 +36,7 @@
             <div id="inputContainer" class="hidden">
                 <input type="text" name="verificatie" id="inputField" placeholder="Voer verificatie code in">
             </div>
-            
-            <!-- <div>
-                <div>
-                    <input type="text" value="" name="bevoegdheid" placeholder="bezoeker/presentator/beheerder">
-                </div>
-            </div> 
-             -->
-<!--             
-            <div>
-                <label for="bevoegdheid"><b>Bevoegdheid</b></label>
-                <select name="bevoegdheid">
-                    <option value="bezoeker">bezoeker</option>
-                    <option value="presentator">presentator</option>
-                    <option value="beheerder">beheerder</option>
-                    
-                </select>
-                </div> -->
+
 
             <input type="submit" value="Submit" class="submit-button">
         </form>

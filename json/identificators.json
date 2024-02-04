@@ -1,8 +1,8 @@
 {
-    "unieke_registraties_totaal": 1,
-    "aantal_bezoekers_registraties": 0,
-    "aantal_presentators_registraties": 0,
+    "unieke_registraties_totaal": 3,
+    "aantal_bezoekers_registraties": 1,
+    "aantal_presentators_registraties": 1,
     "aantal_organisators_registraties": 1,
-    "evenementen": 0,
-    "presentator_verificatie_code": "12345"
+    "evenementen": 4,
+    "presentator_verificatie_code": "abcde12345"
 }

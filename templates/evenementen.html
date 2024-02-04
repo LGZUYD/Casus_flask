@@ -15,7 +15,6 @@
             <input type="submit" value="Zoeken" class="button">
         </form>
         
-        <!-- <form id="checkboxForm" action="/submit_checkbox" method="post"> -->
         <form id="checkboxForm" method="post">
         <div style="font-size: 1.2rem; width: fit-content; font-weight: bold;">Alleen aangemelde evenementen weergeven<input type="submit" class="button" name="Aangemelde_Evenement_tonen" value="Tonen"> <input type="submit" class="button" name="reset" value="Reset" > </div>
         </form>
@@ -105,7 +104,6 @@
     {%endfor%}
     <script>
 
-        // const toggleCheckbox = document.getElementById('checkboxForm');
         const checkboxForm = document.getElementById('checkboxForm');
 
         checkboxForm.addEventListener('change', function() {

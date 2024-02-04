@@ -1,13 +1,13 @@
 .home-info {
-    width: 100%; /* Occupy 100% of the container width */
-    max-width: 800px; /* Set a maximum width for your div */
-    margin: 0 auto; /* Center the div horizontally within the container */
+    width: 100%; 
+    max-width: 800px; 
+    margin: 0 auto; 
     background-color:rgb(45, 42, 52);
     
     padding: 10px;
     padding-right:50px;
     padding-left:50px;
-    box-sizing: border-box; /* Include padding and border in the total width and height */
+    box-sizing: border-box;
     border-radius: 8px;
 }
 

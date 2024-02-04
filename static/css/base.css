@@ -1,7 +1,6 @@
 html, body{
     margin:0;
     padding: 0;
-    /* background-color: rgb(239, 190, 100); */
     background-image: linear-gradient(to left, rgb(193, 217, 237) , rgb(96, 113, 157));
 
 }
@@ -25,66 +24,56 @@ html, body{
 }
 
 #navAndContent-container{
-    width: 100%;
-   
-        display: grid;
+    width: 100%;   
+    display: grid;
     grid-template-columns: 20% 80%;
+    }
+    
+#navbar-container{
+    display: flex;
+    flex-direction: column;
+    background-image: linear-gradient(to top, #1a2a3b, rgb(96, 113, 157));
+    width:fit-content;
+}
+    
+    
+#navbar {
+    display: flex;
+    flex-direction: column;
+    border-right: outset;
+    border-color: rgb(177, 170, 170);
+    list-style-type: none;
+    margin:0;
+    padding: 0;
+    padding-right: 10px ;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    width: 200px;
+    height: 85vh;
+    
+}
 
-        /* box-sizing: border-box; Include padding and border in the total width */
-    }
+.navbar-button{
+    font-family: sans-serif;
+    text-align: center;
+    font-size: larger;
+    justify-items: center;
+    background-color: rgb(255, 255, 255);
+    margin-top:5px;
+    height: auto;
+    border-radius: 10px;
+    border-style: outset;
+    border-color:black;
+    color: black;
+    padding:10px;
     
-    #navbar-container{
-        display: flex;
-        /* height:100vh; */
-        flex-direction: column;
-        /* height: fit-content; */
-        /* background-color:  */
-        background-image: linear-gradient(to top, #1a2a3b, rgb(96, 113, 157));
-        width:fit-content;
-        /* margin-left: 10px; */
-        
-    }
     
-    
-    #navbar {
-        display: flex;
-        flex-direction: column;
-    
-        border-right: outset;
-        border-color: rgb(177, 170, 170);
-        /* border-radius: 10px; */
-        list-style-type: none;
-        margin:0;
-        padding: 0;
-        padding-right: 10px ;
-        padding-bottom: 10px;
-        padding-left: 10px;
-        width: 200px;
-        height: 85vh;
-        
-    }
-    
-    .navbar-button{
-        font-family: sans-serif;
-        text-align: center;
-        font-size: larger;
-        justify-items: center;
-        background-color: rgb(255, 255, 255);
-        margin-top:5px;
-        height: auto;
-        border-radius: 10px;
-        border-style: outset;
-        border-color:black;
-        color: black;
-        padding:10px;
-        
-        
-    }
-    
-    .navbar-button:hover{
-        background-color: rgb(0, 0, 0);
-        color: white;
-    }
+}
+
+.navbar-button:hover{
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
 
 #content-container{
   display: flex;
