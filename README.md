@@ -51,5 +51,5 @@ flask run
     
 Deze gebruikers kunnen veilig worden verwijderd of gewijzigd in het Bezoekers-scherm
 
-8. Om de geleverde unittests uit te voeren, wordt gebruik gemaakt van 'pytest'
+8. Om de geleverde unittests uit te voeren, wordt gebruik gemaakt van 'pytest'<br/>
 **Let op:** Bij het uitvoeren van de unittests worden de ingebouwde functies gebruikt voor het bewerken van de JSON-gegevens met betrekking tot gebruikersregistratie. Als de unittests worden uitgevoerd, worden de gegevens in "identificators.json" bijgewerkt en komen ze niet meer overeen met de werkelijke geregistreerde gebruikers data en moeten ze handmatig worden teruggezet naar hun oorspronkelijke waarden.
